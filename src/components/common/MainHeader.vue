@@ -1,6 +1,6 @@
 <template>
     <header class="main-header">
-        <div class="title">leanBI</div>
+        <div class="title">租伴网</div>
         <div class="right">
         </div>
     </header>
@@ -14,10 +14,9 @@ export default {
             seller_name: ''
         }
     },
-    mounted: function() {
-    },
+    mounted: function() {},
     methods: {
-        
+
     }
 }
 </script>

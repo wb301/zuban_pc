@@ -10,6 +10,22 @@ const router = new Router({
             require(['./components/Hello.vue'], resolve)
         }
     }, {
+        path: '/agent',
+        component: function(resolve) {
+            require(['./page/agent/Index.vue'], resolve)
+        },
+        children: [{
+            path: '',
+            component: function(resolve) {
+                require(['./page/agent/list/Index.vue'], resolve)
+            }
+        }, {
+            path: '/edit',
+            component: function(resolve) {
+                require(['./page/agent/edit/Index.vue'], resolve)
+            }
+        }]
+    }, {
         path: '/',
         redirect: {
             path: '/index'

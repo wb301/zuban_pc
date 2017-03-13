@@ -21,14 +21,14 @@ export default function(request, next) {
     next((res) => {
         var body = res.body;
         if (body.status && body.status != 1) {
-            if(body.msg.length > 0){
-                weui.alert(body.msg);
+            if (body.msg.length > 0) {
+                NormalHelper.alert(GlobalModel.RootVue, body.msg, 'warning');
             }
-            if(body.code == -999){
+            if (body.code == -999) {
                 NormalHelper.setCookie(GlobalModel.COOKIE_USER_INFO, '');
                 GlobalModel.RootVue.$router.push({
-                        path: '/login'
-                    });
+                    path: '/login'
+                });
             }
         }
 

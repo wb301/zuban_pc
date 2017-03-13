@@ -23,6 +23,7 @@ export default {
 
         }
     },
+    mounted() {},
     methods: {
 
     }
@@ -31,7 +32,7 @@ export default {
 <style lang="less">
 .main-sidebar {
     width: 200px;
-    min-height: 100%;
+    height: 100%;
     position: absolute;
     left: 0;
     background-color: #5E6D82;

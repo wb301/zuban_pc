@@ -21,14 +21,8 @@ export default {
     data() {
         return {
             menuList: [{
-                title: '1',
-                path: 'index'
-            }, {
-                title: '2',
-                path: 'index'
-            }, {
-                title: '3',
-                path: 'index'
+                title: '代理商管理',
+                path: 'agent'
             }]
         }
     },
@@ -43,10 +37,11 @@ export default {
 }
 </script>
 <style lang="less">
-body{
+body {
     margin: 0;
     padding: 0;
 }
+
 .container {
     margin-left: 200px;
 }

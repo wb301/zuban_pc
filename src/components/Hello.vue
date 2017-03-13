@@ -1,6 +1,8 @@
 <template>
-    <div class="hello">
-        <h1>{{ msg }}</h1>
+    <div>
+        <div class="container-body">
+            <h1>欢迎使用租伴网后台管理系统</h1>
+        </div>
     </div>
 </template>
 <script>
@@ -8,10 +10,15 @@ export default {
     name: 'hello',
     data() {
         return {
-            msg: '图表控件(3秒后填充数据完毕后出现)'
+
         }
     }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+.container-body {
+    h1 {
+        text-align: center;
+    }
+}
 </style>
