@@ -223,6 +223,7 @@ export default {
     padding: 15px;
     .header {
         .search {
+            margin-top: 15px;
             .select {
                 display: block;
             }
