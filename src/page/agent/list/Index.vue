@@ -42,32 +42,32 @@
             </div>
             <div class="table">
                 <el-table :data="agentList" border style="width: 100%">
-                    <el-table-column prop="date" align="center" label="代理商编号" width="110">
+                    <el-table-column prop="id" align="center" label="编号" min-width="90">
                     </el-table-column>
-                    <el-table-column prop="name" align="center" label="代理商名称">
+                    <el-table-column prop="nick_name" align="center" label="名称" min-width="120">
                     </el-table-column>
-                    <el-table-column prop="province" align="center" label="代理商手机号">
+                    <el-table-column prop="account" align="center" label="手机号" min-width="130">
                     </el-table-column>
-                    <el-table-column prop="city" align="center" label="代理商类型">
+                    <el-table-column prop="manager_type_name" align="center" label="类型" min-width="120">
                     </el-table-column>
-                    <el-table-column prop="address" align="center" label="所属地区">
+                    <el-table-column prop="region_name" align="center" label="所属地区" min-width="180">
                     </el-table-column>
-                    <el-table-column prop="zip" align="center" label="添加时间">
+                    <el-table-column prop="create_time" align="center" label="添加时间" min-width="185">
                     </el-table-column>
-                    <el-table-column prop="zip" align="center" label="帐号状态">
+                    <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
                     </el-table-column>
-                    <el-table-column label="操作" width="140">
+                    <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
                             <el-button @click="edit(scope.$index, agentList)" size="small">
                                 编辑
                             </el-button>
                             <el-button @click="changeState(scope.$index, agentList)" size="small">
-                                关闭
+                                {{scope.row.status==1?"关闭":"开启"}}
                             </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="50">
+                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -87,14 +87,8 @@ export default {
             region1List: [],
             region2List: [],
             region3List: [],
-            agentList: [{
-                date: '1',
-                name: '王小虎',
-                province: '上海',
-                city: '普陀区',
-                address: '上海市普陀区金沙',
-                zip: 200333
-            }],
+            agentList: [],
+            total: 0
 
         }
     },
@@ -149,13 +143,25 @@ export default {
             var param = {
                 c: 'Admin',
                 m: 'User',
-                a: 'getRegionManagerList'
+                a: 'getRegionManagerList',
+                page: 1,
+                row: 10
             };
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.region_code = this.form.region3;
+            }
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                    console.log(response);
+                    for (var i = 0; i < response.list.length; i++) {
+                        response.list[i].account = 13321889021;
+                        response.list[i].region_name = '上海-上海-浦东新区';
+                        response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
+                        response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
+                    }
+                    this.agentList = response.list;
+                    this.total = parseInt(response.total);
                 },
                 fail: (response) => {
                     NormalHelper.alert(this, response, 'error');
@@ -167,14 +173,33 @@ export default {
 
         },
         changeState(index, rows) {
-            rows.splice(index, 1);
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'updRegionManagerStatus',
+                id: rows[index].id,
+                status: rows[index].status
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    row[index].status = row[index].status == 1 ? 0 : 1;
+                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    if (this.form.region3 != "") {
+                        this.getRegionManagerList();
+                    }
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });
