@@ -155,8 +155,6 @@ export default {
                 param: param,
                 success: (response) => {
                     for (var i = 0; i < response.list.length; i++) {
-                        response.list[i].account = 13321889021;
-                        response.list[i].region_name = '上海-上海-浦东新区';
                         response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
                         response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
                     }
