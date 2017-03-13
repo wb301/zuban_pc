@@ -9,14 +9,14 @@
 // 全局错误处理，全局loading
 // import { setLoading, setTip } from './vuex/actions/doc_actions'
 export default function(request, next) {
-    // var userToken =  NormalHelper.userInfo().token;
-    // if (userToken) {
-    //     if (request.method == 'GET' && !request.params.token) {
-    //         request.params.token = userToken;
-    //     } else if (request.method == 'POST' && !request.body.token) {
-    //         request.body.token = userToken;
-    //     }
-    // }
+    var userToken = '9f625c4c663579a07201e983344cbd7a';
+    if (userToken) {
+        if (request.method == 'GET' && !request.params.token) {
+            request.params.token = userToken;
+        } else if (request.method == 'POST' && !request.body.token) {
+            request.body.token = userToken;
+        }
+    }
     //当用到当前组件对象时, 使用 GlobalModel.RootVue
     next((res) => {
         var body = res.body;

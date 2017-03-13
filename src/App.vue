@@ -29,9 +29,7 @@ export default {
     created: function() {
         GlobalModel.RootVue = this;
     },
-    mounted() {
-
-    },
+    mounted() {},
     methods: {},
     destroyed() {}
 }

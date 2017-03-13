@@ -42,17 +42,19 @@
             </div>
             <div class="table">
                 <el-table :data="agentList" border style="width: 100%">
-                    <el-table-column fixed prop="date" label="日期">
+                    <el-table-column prop="date" align="center" label="代理商编号" width="110">
                     </el-table-column>
-                    <el-table-column prop="name" label="姓名">
+                    <el-table-column prop="name" align="center" label="代理商名称">
                     </el-table-column>
-                    <el-table-column prop="province" label="省份">
+                    <el-table-column prop="province" align="center" label="代理商手机号">
                     </el-table-column>
-                    <el-table-column prop="city" label="市区">
+                    <el-table-column prop="city" align="center" label="代理商类型">
                     </el-table-column>
-                    <el-table-column prop="address" label="地址">
+                    <el-table-column prop="address" align="center" label="所属地区">
                     </el-table-column>
-                    <el-table-column prop="zip" label="邮编">
+                    <el-table-column prop="zip" align="center" label="添加时间">
+                    </el-table-column>
+                    <el-table-column prop="zip" align="center" label="帐号状态">
                     </el-table-column>
                     <el-table-column label="操作" width="140">
                         <template scope="scope">
@@ -86,7 +88,7 @@ export default {
             region2List: [],
             region3List: [],
             agentList: [{
-                date: '2016-05-03',
+                date: '1',
                 name: '王小虎',
                 province: '上海',
                 city: '普陀区',
@@ -98,6 +100,7 @@ export default {
     },
     mounted() {
         this.getRegionList();
+        this.getRegionManagerList();
     },
     methods: {
         getRegionList() {
@@ -141,6 +144,24 @@ export default {
                     this.form.region3 = this.region2List[i].children[0].code;
                 }
             }
+        },
+        getRegionManagerList() {
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'getRegionManagerList'
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    console.log(response);
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
         },
         edit(index, rows) {
 
