@@ -10,6 +10,11 @@ const router = new Router({
             require(['./components/Hello.vue'], resolve)
         }
     }, {
+        path: '/login',
+        component: function(resolve) {
+            require(['./page/login/Index.vue'], resolve)
+        }
+    }, {
         path: '/agent',
         component: function(resolve) {
             require(['./page/agent/Index.vue'], resolve)
