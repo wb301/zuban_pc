@@ -34,8 +34,8 @@ export default {
         if (managerType > 0) {
             var masterList = [{
                 title: '提现申请',
-                path: 'withdraw'
-            }, {
+                path: 'withdrawal'
+            },{
                 title: '代理商管理',
                 path: 'agent'
             }, {
