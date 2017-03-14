@@ -3,12 +3,29 @@
         <div class="container-body">
             <div class="header">
                 <div class="add-btn">
-                    <el-button>新增一级类型</el-button>
+                    <el-button @click="addCategory(false)">新增一级类型</el-button>
                 </div>
             </div>
             <el-tree :data="categoryList" :props="defaultProps" node-key="id" accordion :expand-on-click-node="false" :render-content="renderContent">
             </el-tree>
         </div>
+        <el-dialog :title="dialogTitle" v-model="dialogFormVisible">
+            <el-form ref="form" :model="form" label-width="130px">
+                <el-form-item label="类型名称：">
+                    <el-input v-model="form.category_name"></el-input>
+                </el-form-item>
+                <el-form-item label="出租人联系方式：">
+                    <el-radio-group v-model="form.is_free">
+                        <el-radio label="0">收费查看</el-radio>
+                        <el-radio label="1">免费查看</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addCategory(true)">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -21,6 +38,12 @@ export default {
             defaultProps: {
                 children: 'children',
                 label: 'category_name'
+            },
+            dialogFormVisible: false,
+            dialogTitle: '新增服务类型',
+            form: {
+                category_name: '',
+                is_free: "0"
             }
         }
     },
@@ -62,6 +85,43 @@ export default {
                 }
             };
             AjaxHelper.PostRequest(p_obj);
+        },
+        createCategoryInfo(p_obj, callback) {
+            var param = {
+                categoryInfo: {}
+            };
+            if (p_obj) {
+                for (var key in p_obj) {
+                    param.categoryInfo[key] = p_obj[key];
+                }
+            }
+            var p_obj = {
+                action: '&c=Admin&m=Category&a=createCategoryInfo',
+                param: param,
+                success: (response) => {
+                    callback(response);
+                }
+            };
+            AjaxHelper.PostRequest(p_obj);
+        },
+        addCategory(bool) {
+            if (bool) {
+                this.createCategoryInfo({
+                    parent_id: 1,
+                    category_name: this.form.category_name,
+                    is_free: this.form.is_free,
+                    sort: this.categoryList.length + 1
+                }, (res) => {
+                    this.dialogFormVisible = false;
+                    this.$message({
+                        type: 'success',
+                        message: '添加成功!'
+                    });
+                    this.getCategoryList();
+                })
+            } else {
+                this.dialogFormVisible = true;
+            }
         },
         append(store, data) {
             console.log(data);

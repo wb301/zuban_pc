@@ -35,7 +35,7 @@ export default {
             var masterList = [{
                 title: '提现申请',
                 path: 'withdrawal'
-            },{
+            }, {
                 title: '代理商管理',
                 path: 'agent'
             }, {
@@ -61,8 +61,8 @@ export default {
     },
     mounted() {
         this.$nextTick(function() {
-            if ($(".main-sidebar").height() < $("body").height())
-                $(".main-sidebar").height($("body").height())
+            if ($(".main-sidebar").height() < $(window).height())
+                $(".main-sidebar").height($(window).height())
         })
     },
     methods: {},
