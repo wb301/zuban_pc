@@ -23,6 +23,9 @@ export default {
             menuList: [{
                 title: '代理商管理',
                 path: 'agent'
+            }, {
+                title: '订单统计',
+                path: 'order'
             }]
         }
     },

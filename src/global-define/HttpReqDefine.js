@@ -9,7 +9,7 @@
 // 全局错误处理，全局loading
 // import { setLoading, setTip } from './vuex/actions/doc_actions'
 export default function(request, next) {
-    var userToken = '9f625c4c663579a07201e983344cbd7a';
+    var userToken = '8770a43945d198477e6ada12f0818d74';
     if (userToken) {
         if (request.method == 'GET' && !request.params.token) {
             request.params.token = userToken;
@@ -27,7 +27,7 @@ export default function(request, next) {
             if (body.code == -999) {
                 NormalHelper.setCookie(GlobalModel.COOKIE_USER_INFO, '');
                 GlobalModel.RootVue.$router.push({
-                    path: '/login'
+                    path: '/index'
                 });
             }
         }
