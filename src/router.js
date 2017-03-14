@@ -84,6 +84,11 @@ const router = new Router({
             component: function(resolve) {
                 require(['./page/operation/service-type/Index.vue'], resolve)
             }
+        }, {
+            path: '/rate',
+            component: function(resolve) {
+                require(['./page/operation/rate/Index.vue'], resolve)
+            }
         }]
     }, {
         path: '/',

@@ -43,7 +43,7 @@ export default {
                 path: 'service-type'
             }, {
                 title: '费率配置',
-                path: 'priceSystem'
+                path: 'rate'
             }, {
                 title: '内容审核',
                 path: 'product'
