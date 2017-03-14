@@ -88,7 +88,8 @@ export default {
             region2List: [],
             region3List: [],
             agentList: [],
-            total: 0
+            total: 0,
+            page: 1
 
         }
     },
@@ -114,9 +115,6 @@ export default {
                     this.form.region1 = response[0].code;
                     this.form.region2 = response[0].children[0].code;
                     this.form.region3 = response[0].children[0].children[0].code;
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -144,7 +142,7 @@ export default {
                 c: 'Admin',
                 m: 'User',
                 a: 'getRegionManagerList',
-                page: 1,
+                page: this.page,
                 row: 10
             };
             if (this.form.region3 != "" && this.form.region3 != '1') {
@@ -160,9 +158,6 @@ export default {
                     }
                     this.agentList = response.list;
                     this.total = parseInt(response.total);
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -184,9 +179,6 @@ export default {
                 success: (response) => {
                     row[index].status = row[index].status == 1 ? 0 : 1;
                     row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -195,6 +187,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (this.form.region3 != "") {
+                        this.page = 1;
                         this.getRegionManagerList();
                     }
                 } else {
@@ -211,8 +204,8 @@ export default {
             this.form.region3 = this.region3List[0].code;
         },
         handleCurrentChange(val) {
-            this.currentPage = val;
-            console.log(`当前页: ${val}`);
+            this.page = val;
+            this.getRegionManagerList();
         }
     },
     destroyed() {}

@@ -53,9 +53,6 @@ export default {
                     this.$router.push({
                         path: '/user'
                     });
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);

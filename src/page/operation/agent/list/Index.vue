@@ -115,9 +115,6 @@ export default {
                     this.form.region1 = response[0].code;
                     this.form.region2 = response[0].children[0].code;
                     this.form.region3 = response[0].children[0].children[0].code;
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -161,9 +158,6 @@ export default {
                     }
                     this.agentList = response.list;
                     this.total = parseInt(response.total);
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -185,9 +179,6 @@ export default {
                 success: (response) => {
                     row[index].status = row[index].status == 1 ? 0 : 1;
                     row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
-                },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
