@@ -67,25 +67,24 @@ const router = new Router({
                 component: function(resolve) {
                     require(['./page/operation/order/list/Index.vue'], resolve)
                 }
+            }]
+        }, {
+            path: '/withdrawal',
+            component: function(resolve) {
+                require(['./page/operation/withdrawal/Index.vue'], resolve)
+            },
+            children: [{
+                path: '',
+                component: function(resolve) {
+                    require(['./page/operation/withdrawal/list/Index.vue'], resolve)
+                }
+            }]
         }, {
             path: '/service-type',
             component: function(resolve) {
                 require(['./page/operation/service-type/Index.vue'], resolve)
             }
         }]
-        },
-            {
-                path: '/withdrawal',
-                component: function(resolve) {
-                    require(['./page/operation/withdrawal/Index.vue'], resolve)
-                },
-                children: [{
-                    path: '',
-                    component: function(resolve) {
-                        require(['./page/operation/withdrawal/list/Index.vue'], resolve)
-                    }
-                }]
-            }]
     }, {
         path: '/',
         redirect: {
