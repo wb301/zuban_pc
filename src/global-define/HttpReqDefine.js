@@ -24,7 +24,7 @@ export default function(request, next) {
             if (body.code == -999) {
                 NormalHelper.setCookie(GlobalModel.COOKIE_USER_INFO, '');
                 GlobalModel.RootVue.$router.push({
-                    path: '/index'
+                    path: '/login'
                 });
             }
         }
