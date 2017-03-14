@@ -23,13 +23,14 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addCategory(true)">确 定</el-button>
+                <el-button type="primary" v-if="dialogType==0" @click="addCategory(true)">确 定</el-button>
+                <el-button type="primary" v-else @click="addCategory2()">确 定</el-button>
             </div>
         </el-dialog>
     </div>
 </template>
 <script>
-let id = 1000;
+let p_store, p_data;
 export default {
     components: {},
     data() {
@@ -41,6 +42,7 @@ export default {
             },
             dialogFormVisible: false,
             dialogTitle: '新增服务类型',
+            dialogType: 0,
             form: {
                 category_name: '',
                 is_free: "0"
@@ -51,17 +53,31 @@ export default {
         this.getCategoryList();
     },
     methods: {
-        getCategoryList() {
+        getCategoryList(p_id = 1) {
             var param = {
                 c: 'Admin',
                 m: 'Category',
-                a: 'getCategoryList'
+                a: 'getCategoryList',
+                id: p_id
             };
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                    this.categoryList = response;
+                    if (p_id == 1) {
+                        for (var i = 0; i < response.length; i++) {
+                            if (!response[i].children) {
+                                response[i].children = [];
+                            }
+                        }
+                        this.categoryList = response;
+                    } else {
+                        for (var i = 0; i < this.categoryList.length; i++) {
+                            if (this.categoryList[i].id == p_id) {
+                                this.categoryList[i].children = response;
+                            }
+                        }
+                    }
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -120,20 +136,36 @@ export default {
                     this.getCategoryList();
                 })
             } else {
+                this.form = {
+                    category_name: '',
+                    is_free: "0"
+                };
                 this.dialogFormVisible = true;
             }
         },
+        addCategory2() {
+            this.createCategoryInfo({
+                parent_id: p_data.id,
+                category_name: this.form.category_name,
+                is_free: this.form.is_free,
+                sort: p_data.children ? p_data.children.length + 1 : 1
+            }, (res) => {
+                this.dialogFormVisible = false;
+                this.$message({
+                    type: 'success',
+                    message: '添加成功!'
+                });
+                this.getCategoryList(p_data.id);
+            })
+        },
         append(store, data) {
-            console.log(data);
-            // store.append({
-            //     id: id++,
-            //     label: 'testtest',
-            //     children: []
-            // }, data);
+            p_store = store;
+            p_data = data;
+            this.dialogType = 1;
+            this.addCategory(false);
         },
         edit(store, data) {},
         remove(store, data) {
-            console.log(data);
             this.$confirm('删除后无法恢复，确认要删除该条记录？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
