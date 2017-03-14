@@ -1,10 +1,14 @@
 <template>
     <aside class="main-sidebar">
-        <ul>
-            <router-link active-class='active' tag="li" :to="{path: '/'+item.path}" v-for="(item,index) in sideList">
-                {{item.title}}
-            </router-link>
-        </ul>
+        <el-menu default-active="1" router class="el-menu-vertical-demo" theme="dark">
+            <template v-for="(item,index) in sideList">
+                <el-submenu index="1" v-if="item.children">
+                    <template slot="title">{{item.title}}</template>
+                    <el-menu-item :index="item2.path" :route="{path: '/'+item2.path}" v-for="(item2,index) in item.children">{{item2.title}}</el-menu-item>
+                </el-submenu>
+                <el-menu-item :index="item.path" :route="{path: '/'+item.path}" v-else>{{item.title}}</el-menu-item>
+            </template>
+        </el-menu>
     </aside>
 </template>
 <script>
@@ -34,25 +38,12 @@ export default {
     width: 200px;
     position: absolute;
     left: 0;
-    background-color: #5E6D82;
-    ul,
-    li {
-        margin: 0;
-        padding: 0;
-    }
-    ul li {
-        padding-left: 20px;
-        height: 56px;
-        line-height: 56px;
-        list-style-type: none;
-        color: #fff;
-        font-size: 14px;
-    }
-    li.active {
-        background-color: #8492A6;
-    }
-    li:hover {
-        background-color: #8492A6;
+    .el-menu-vertical-demo {
+        display: inline-block;
+        text-align: left;
+        width: 200px;
+        min-height: 100%;
+        border-radius: 0px;
     }
 }
 </style>

@@ -39,11 +39,14 @@ export default {
                 title: '代理商管理',
                 path: 'agent'
             }, {
-                title: '服务类型配置',
-                path: 'service-type'
-            }, {
-                title: '费率配置',
-                path: 'rate'
+                title: '系统配置',
+                children: [{
+                    title: '服务类型配置',
+                    path: 'service-type'
+                }, {
+                    title: '费率配置',
+                    path: 'rate'
+                }]
             }, {
                 title: '内容审核',
                 path: 'product'
