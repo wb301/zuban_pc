@@ -22,20 +22,20 @@ export default {
 
         var menuList = [{
             title: '用户统计',
-            path: 'order'
-        }, {
+            path: 'user'
+        },{
             title: '订单统计',
             path: 'order'
         }, {
             title: '收支明细',
-            path: 'order'
+            path: 'history'
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
             var masterList = [{
                 title: '提现申请',
-                path: 'agent'
-            }, {
+                path: 'withdraw'
+            },{
                 title: '代理商管理',
                 path: 'agent'
             }, {
@@ -45,8 +45,13 @@ export default {
                 title: '费率配置',
                 path: 'agent'
             }, {
+                path: 'serverSystem'
+            },{
+                title: '费率配置',
+                path: 'priceSystem'
+            },{
                 title: '内容审核',
-                path: 'agent'
+                path: 'product'
             }];
             //只有平台能看到
             menuList = menuList.concat(masterList);

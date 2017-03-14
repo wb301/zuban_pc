@@ -36,6 +36,22 @@ const router = new Router({
                 }
             }]
         }, {
+            path: '/user',
+            component: function(resolve) {
+                require(['./page/operation/user/Index.vue'], resolve)
+            },
+            children: [{
+                path: '',
+                component: function(resolve) {
+                    require(['./page/operation/user/list/Index.vue'], resolve)
+                }
+            }, {
+                path: '/edit',
+                component: function(resolve) {
+                    require(['./page/operation/user/edit/Index.vue'], resolve)
+                }
+            }]
+        }, {
             path: '/order',
             component: function(resolve) {
                 require(['./page/operation/order/Index.vue'], resolve)

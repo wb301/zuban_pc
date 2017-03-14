@@ -9,7 +9,8 @@
 // 全局错误处理，全局loading
 // import { setLoading, setTip } from './vuex/actions/doc_actions'
 export default function(request, next) {
-    var userToken = '8770a43945d198477e6ada12f0818d74';
+    // var userToken = '8770a43945d198477e6ada12f0818d74';
+    var userToken = NormalHelper.userInfo()["token"];
     if (userToken) {
         if (request.method == 'GET' && !request.params.token) {
             request.params.token = userToken;
