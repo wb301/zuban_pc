@@ -88,7 +88,8 @@ export default {
             region2List: [],
             region3List: [],
             agentList: [],
-            total: 0
+            total: 0,
+            page: 1
 
         }
     },
@@ -144,7 +145,7 @@ export default {
                 c: 'Admin',
                 m: 'User',
                 a: 'getRegionManagerList',
-                page: 1,
+                page: this.page,
                 row: 10
             };
             if (this.form.region3 != "" && this.form.region3 != '1') {
@@ -195,6 +196,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (this.form.region3 != "") {
+                        this.page = 1;
                         this.getRegionManagerList();
                     }
                 } else {
@@ -211,8 +213,8 @@ export default {
             this.form.region3 = this.region3List[0].code;
         },
         handleCurrentChange(val) {
-            this.currentPage = val;
-            console.log(`当前页: ${val}`);
+            this.page = val;
+            this.getRegionManagerList();
         }
     },
     destroyed() {}
