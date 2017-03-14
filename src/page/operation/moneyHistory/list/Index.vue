@@ -2,15 +2,40 @@
     <div>
         <div class="container-body">
             <div class="header">
-                <div class="add-btn">
-                    <el-button>新增代理商</el-button>
-                </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
-                        <el-form-item label="代理商手机号码" prop="phone">
-                            <el-input v-model.number="form.phone"></el-input>
+                        <el-form-item label="订单编号" prop="orderNo">
+                            <el-input v-model.number="form.orderNo"></el-input>
                         </el-form-item>
-                        <el-form-item label="代理商类型">
+
+                        <el-form-item label="交易时间">
+                            <!-- <el-col :span="8">
+                                <el-form-item prop="region1">
+                                    <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
+                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-form-item prop="region2">
+                                    <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
+                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col> -->
+                        </el-form-item>
+
+                        <el-form-item label="交易类型">
+                            <el-col :span="8">
+                                <el-form-item prop="tradeName">
+                                    <el-select class="select" v-model="form.tradeName" placeholder="全部">
+                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-form-item>
+
+                        <el-form-item label="分成地区" v-if="managerType > 0">
                             <el-col :span="8">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
@@ -41,30 +66,14 @@
                 </div>
             </div>
             <div class="table">
-                <el-table :data="agentList" border style="width: 100%">
-                    <el-table-column prop="id" align="center" label="编号" min-width="90">
+                <el-table :data="userStatisticsList" border style="width: 100%">
+                    <el-table-column prop="day_name" align="center" label="统计类型" min-width="90">
                     </el-table-column>
-                    <el-table-column prop="nick_name" align="center" label="名称" min-width="120">
+                    <el-table-column prop="all_num" align="center" label="总注册用户数" min-width="120">
                     </el-table-column>
-                    <el-table-column prop="account" align="center" label="手机号" min-width="130">
+                    <el-table-column prop="register_num" align="center" label="当日注册用户数" min-width="130">
                     </el-table-column>
-                    <el-table-column prop="manager_type_name" align="center" label="类型" min-width="120">
-                    </el-table-column>
-                    <el-table-column prop="region_name" align="center" label="所属地区" min-width="180">
-                    </el-table-column>
-                    <el-table-column prop="create_time" align="center" label="添加时间" min-width="185">
-                    </el-table-column>
-                    <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
-                    </el-table-column>
-                    <el-table-column fixed="right" align="center" label="操作" width="140">
-                        <template scope="scope">
-                            <el-button @click="edit(scope.$index, agentList)" size="small">
-                                编辑
-                            </el-button>
-                            <el-button @click="changeState(scope.$index, agentList)" size="small">
-                                {{scope.row.status==1?"关闭":"开启"}}
-                            </el-button>
-                        </template>
+                    <el-table-column prop="login_num" align="center" label="当日活跃用户数" min-width="120">
                     </el-table-column>
                 </el-table>
                 <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
@@ -79,22 +88,33 @@ export default {
     data() {
         return {
             form: {
+                orderNo: '',
                 region1: '',
                 region2: '',
-                region3: ''
+                region3: '',
+                tradeName: ''
             },
             region1List: [],
             region2List: [],
             region3List: [],
-            agentList: [],
+            tradeList: [],
+            userStatisticsList: [],
+            page: 1,
             total: 0,
-            page: 1
-
+            userInfo: NormalHelper.userInfo(),
+            managerType: 0
         }
     },
     mounted() {
-        this.getRegionList();
-        this.getRegionManagerList();
+
+        this.managerType = this.userInfo["manager_type"];
+        if(this.managerType <= 0){
+            this.form.region3 = this.userInfo["region_code"];
+        }else{
+            this.getRegionList();
+        }
+        this.getUserStatistics();
+        this.getTradeList();
     },
     methods: {
         getRegionList() {
@@ -114,9 +134,18 @@ export default {
                     this.form.region1 = response[0].code;
                     this.form.region2 = response[0].children[0].code;
                     this.form.region3 = response[0].children[0].children[0].code;
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
+        },
+        getTradeList() {
+            this.tradeList = [{
+                name: "提现中",
+                code: 1
+            }];
         },
         selectRegion1List() {
             for (var i = 0; i < this.region1List.length; i++) {
@@ -136,48 +165,28 @@ export default {
                 }
             }
         },
-        getRegionManagerList() {
+        getUserStatistics() {
             var param = {
                 c: 'Admin',
-                m: 'User',
-                a: 'getRegionManagerList',
-                page: this.page,
-                row: 10
+                m: 'Report',
+                a: 'userStatistics'
             };
+
             if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
+                param.region = this.form.region3;
             }
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                    for (var i = 0; i < response.list.length; i++) {
-                        response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
-                        response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
-                    }
-                    this.agentList = response.list;
-                    this.total = parseInt(response.total);
-                }
-            };
-            AjaxHelper.GetRequest(p_obj);
-        },
-        edit(index, rows) {
 
-        },
-        changeState(index, rows) {
-            var param = {
-                c: 'Admin',
-                m: 'User',
-                a: 'updRegionManagerStatus',
-                id: rows[index].id,
-                status: rows[index].status > 0 ? 0 : 1
-            };
-            var p_obj = {
-                action: '',
-                param: param,
-                success: (response) => {
-                    row[index].status = row[index].status == 1 ? 0 : 1;
-                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
+                    this.userStatisticsList = [];
+                    for(var item in response){
+                        this.userStatisticsList.push(response[item]);
+                    }
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -187,7 +196,7 @@ export default {
                 if (valid) {
                     if (this.form.region3 != "") {
                         this.page = 1;
-                        this.getRegionManagerList();
+                        this.getUserStatistics();
                     }
                 } else {
                     return false;

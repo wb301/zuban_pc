@@ -28,7 +28,7 @@ export default {
             path: 'order'
         }, {
             title: '收支明细',
-            path: 'history'
+            path: 'moneyHistory'
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
@@ -41,10 +41,7 @@ export default {
             }, {
                 title: '服务类型配置',
                 path: 'service-type'
-            }, {
-                title: '费率配置',
-                path: 'agent'
-            }, {
+            },{
                 title: '费率配置',
                 path: 'priceSystem'
             }, {

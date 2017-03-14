@@ -45,10 +45,16 @@ const router = new Router({
                 component: function(resolve) {
                     require(['./page/operation/user/list/Index.vue'], resolve)
                 }
-            }, {
-                path: '/edit',
+            }]
+        }, {
+            path: '/moneyHistory',
+            component: function(resolve) {
+                require(['./page/operation/moneyHistory/Index.vue'], resolve)
+            },
+            children: [{
+                path: '',
                 component: function(resolve) {
-                    require(['./page/operation/user/edit/Index.vue'], resolve)
+                    require(['./page/operation/moneyHistory/list/Index.vue'], resolve)
                 }
             }]
         }, {
@@ -62,11 +68,6 @@ const router = new Router({
                     require(['./page/operation/order/list/Index.vue'], resolve)
                 }
             }]
-        }, {
-            path: '/service-type',
-            component: function(resolve) {
-                require(['./page/operation/service-type/Index.vue'], resolve)
-            }
         }]
     }, {
         path: '/',

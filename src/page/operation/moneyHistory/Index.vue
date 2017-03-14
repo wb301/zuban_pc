@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-body"></div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
@@ -13,7 +13,10 @@ export default {
 
     },
     mounted() {
-
+        this.$nextTick(function() {
+            if ($(".main-sidebar").height() < $("body").height())
+                $(".main-sidebar").height($("body").height())
+        })
     },
     methods: {},
     destroyed() {}
