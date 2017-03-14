@@ -40,7 +40,7 @@ export default {
                 path: 'agent'
             }, {
                 title: '服务类型配置',
-                path: 'agent'
+                path: 'service-type'
             }, {
                 title: '费率配置',
                 path: 'agent'
@@ -59,7 +59,12 @@ export default {
     created: function() {
 
     },
-    mounted() {},
+    mounted() {
+        this.$nextTick(function() {
+            if ($(".main-sidebar").height() < $("body").height())
+                $(".main-sidebar").height($("body").height())
+        })
+    },
     methods: {},
     destroyed() {}
 }

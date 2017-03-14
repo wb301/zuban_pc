@@ -32,7 +32,6 @@ export default {
 <style lang="less">
 .main-sidebar {
     width: 200px;
-    height: 100%;
     position: absolute;
     left: 0;
     background-color: #5E6D82;

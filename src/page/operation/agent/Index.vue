@@ -13,10 +13,7 @@ export default {
 
     },
     mounted() {
-        this.$nextTick(function() {
-            if ($(".main-sidebar").height() < $("body").height())
-                $(".main-sidebar").height($("body").height())
-        })
+        
     },
     methods: {},
     destroyed() {}

@@ -46,6 +46,11 @@ const router = new Router({
                     require(['./page/operation/order/list/Index.vue'], resolve)
                 }
             }]
+        }, {
+            path: '/service-type',
+            component: function(resolve) {
+                require(['./page/operation/service-type/Index.vue'], resolve)
+            }
         }]
     }, {
         path: '/',
