@@ -9,8 +9,7 @@
 // 全局错误处理，全局loading
 // import { setLoading, setTip } from './vuex/actions/doc_actions'
 export default function(request, next) {
-    // var userToken = '8770a43945d198477e6ada12f0818d74';
-    var userToken = NormalHelper.userInfo()["token"];
+    var userToken = NormalHelper.userInfo().token;
     if (userToken) {
         if (request.method == 'GET' && !request.params.token) {
             request.params.token = userToken;
@@ -22,9 +21,6 @@ export default function(request, next) {
     next((res) => {
         var body = res.body;
         if (body.status && body.status != 1) {
-            if (body.msg.length > 0) {
-                NormalHelper.alert(GlobalModel.RootVue, body.msg, 'warning');
-            }
             if (body.code == -999) {
                 NormalHelper.setCookie(GlobalModel.COOKIE_USER_INFO, '');
                 GlobalModel.RootVue.$router.push({
@@ -32,7 +28,6 @@ export default function(request, next) {
                 });
             }
         }
-
         return res;
     })
 }
