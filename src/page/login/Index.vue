@@ -1,15 +1,15 @@
 <template>
     <div>
-    <div>
-        <div class="container-body">
-            <div class="wapper-main">
-                <div class="content-wapper">
-                    <el-input v-model="account" placeholder="您的账号"></el-input>
-                    <el-input v-model="password" placeholder="您的密码"></el-input>
-                    <el-button type="primary" class="login" @click="login()">登录</el-button>
+        <div>
+            <div class="container-body">
+                <div class="wapper-main">
+                    <div class="content-wapper">
+                        <el-input v-model="account" placeholder="您的账号"></el-input>
+                        <el-input v-model="password" placeholder="您的密码"></el-input>
+                        <el-button type="primary" class="login" @click="login()">登录</el-button>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@ export default {
                 success: (response) => {
                     NormalHelper.setUserInfo(response);
                     this.$router.push({
-                        path: '/order'
+                        path: '/index'
                     });
                 },
                 fail: (response) => {
@@ -65,8 +65,8 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.container-body{
-}
+.container-body {}
+
 .title-wapper {
     font-size: 20px;
     text-align: center;
