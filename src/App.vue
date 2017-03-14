@@ -1,30 +1,14 @@
 <template>
     <div>
-        <main-header></main-header>
-        <main-sidebar :side-list="menuList"></main-sidebar>
-        <div class="container">
-            <section>
-                <router-view></router-view>
-            </section>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
-import MainHeader from 'components/common/MainHeader'
-import MainSidebar from 'components/common/MainSidebar'
 export default {
     name: 'app',
-    components: {
-        MainHeader,
-        MainSidebar
-    },
+    components: {},
     data() {
-        return {
-            menuList: [{
-                title: '代理商管理',
-                path: 'agent'
-            }]
-        }
+        return {}
     },
     created: function() {
         GlobalModel.RootVue = this;
@@ -38,9 +22,5 @@ export default {
 body {
     margin: 0;
     padding: 0;
-}
-
-.container {
-    margin-left: 200px;
 }
 </style>

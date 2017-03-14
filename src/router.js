@@ -5,26 +5,32 @@ Vue.use(Router)
 const router = new Router({
     mode: 'hash',
     routes: [{
-        path: '/index',
+        path: '/operation',
         component: function(resolve) {
-            require(['./components/Hello.vue'], resolve)
-        }
-    }, {
-        path: '/agent',
-        component: function(resolve) {
-            require(['./page/agent/Index.vue'], resolve)
+            require(['./page/operation/Index.vue'], resolve)
         },
         children: [{
-            path: '',
+            path: '/index',
             component: function(resolve) {
-                require(['./page/agent/list/Index.vue'], resolve)
+                require(['./components/Hello.vue'], resolve)
             }
         }, {
-            path: '/edit',
+            path: '/agent',
             component: function(resolve) {
-                require(['./page/agent/edit/Index.vue'], resolve)
-            }
-        }]
+                require(['./page/operation/agent/Index.vue'], resolve)
+            },
+            children: [{
+                path: '',
+                component: function(resolve) {
+                    require(['./page/operation/agent/list/Index.vue'], resolve)
+                }
+            }, {
+                path: '/edit',
+                component: function(resolve) {
+                    require(['./page/operation/agent/edit/Index.vue'], resolve)
+                }
+            }]
+        }, ]
     }, {
         path: '/',
         redirect: {
