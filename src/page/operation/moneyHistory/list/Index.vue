@@ -7,7 +7,6 @@
                         <el-form-item label="订单编号" prop="orderNo">
                             <el-input v-model.number="form.orderNo"></el-input>
                         </el-form-item>
-
                         <el-form-item label="交易时间">
                             <!-- <el-col :span="8">
                                 <el-form-item prop="region1">
@@ -24,7 +23,6 @@
                                 </el-form-item>
                             </el-col> -->
                         </el-form-item>
-
                         <el-form-item label="交易类型">
                             <el-col :span="8">
                                 <el-form-item prop="tradeName">
@@ -34,7 +32,6 @@
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
-
                         <el-form-item label="分成地区" v-if="managerType > 0">
                             <el-col :span="8">
                                 <el-form-item prop="region1">
@@ -108,9 +105,9 @@ export default {
     mounted() {
 
         this.managerType = this.userInfo["manager_type"];
-        if(this.managerType <= 0){
+        if (this.managerType <= 0) {
             this.form.region3 = this.userInfo["region_code"];
-        }else{
+        } else {
             this.getRegionList();
         }
         this.getUserStatistics();
@@ -181,7 +178,7 @@ export default {
                 success: (response) => {
 
                     this.userStatisticsList = [];
-                    for(var item in response){
+                    for (var item in response) {
                         this.userStatisticsList.push(response[item]);
                     }
                 },
