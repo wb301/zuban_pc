@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container-body">
-            <el-tree :data="categoryList" :props="defaultProps" node-key="id" default-expand-all :expand-on-click-node="false" :render-content="renderContent">
+            <el-tree :data="categoryList" :props="defaultProps" node-key="id" accordion :expand-on-click-node="false" :render-content="renderContent">
             </el-tree>
         </div>
     </div>
@@ -33,18 +33,18 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    console.log(response);
                     this.categoryList = response;
                 }
             };
             AjaxHelper.GetRequest(p_obj);
         },
         append(store, data) {
-            store.append({
-                id: id++,
-                label: 'testtest',
-                children: []
-            }, data);
+            console.log(data);
+            // store.append({
+            //     id: id++,
+            //     label: 'testtest',
+            //     children: []
+            // }, data);
         },
 
         remove(store, data) {
@@ -56,45 +56,84 @@ export default {
             data,
             store
         }) {
-            return h('span', [h('span', data.category_name), h('el-button', {
-                // 和`v-bind:class`一样的 API
+            var html = h('span', [h('span', data.category_name), h('el-button', {
                 'class': {},
-                domProps: {
-                    innerHTML: 'baz'
+                style: {
+                    'margin-left': '10px'
                 },
-                // 正常的 HTML 特性
+                domProps: {
+                    innerHTML: '编辑'
+                },
                 attrs: {
-                    // id: 'foo'
                     type: "text"
                 },
-                // 事件监听器基于 "on"
-                // 所以不再支持如 v-on:keyup.enter 修饰器
-                // 需要手动匹配 keyCode。
-                nativeOn: {
-                    click: this.append
+                on: {
+                    click: () => this.append(store, data)
                 }
             }), h('el-button', {
-                // 和`v-bind:class`一样的 API
                 'class': {},
                 domProps: {
-                    innerHTML: 'baz'
+                    innerHTML: '删除'
                 },
-                // 正常的 HTML 特性
                 attrs: {
-                    // id: 'foo'
+
                     type: "text"
                 },
-                // 事件监听器基于 "on"
-                // 所以不再支持如 v-on:keyup.enter 修饰器
-                // 需要手动匹配 keyCode。
-                nativeOn: {
-                    click: this.append
+                on: {
+                    click: () => this.remove(store, data)
+                }
+            }), h('el-button', {
+                'class': {},
+                props: {
+                    disabled: true
+                },
+                domProps: {
+                    innerHTML: '上移'
+                },
+                attrs: {
+                    type: "text"
+                },
+                on: {
+                    click: () => this.append(store, data)
+                }
+            }), h('el-button', {
+                'class': {},
+                props: {
+                    disabled: true
+                },
+                domProps: {
+                    innerHTML: '下移'
+                },
+                attrs: {
+
+                    type: "text"
+                },
+                on: {
+                    click: () => this.append(store, data)
                 }
             })])
+            if (node.level == 1) {
+                html.children.splice(2, 0, h('el-button', {
+                    'class': {},
+                    props: {},
+                    domProps: {
+                        innerHTML: '添加下级'
+                    },
+                    attrs: {
+
+                        type: "text"
+                    },
+                    on: {
+                        click: () => this.append(store, data)
+                    }
+                }));
+            }
+            return html;
         }
     },
     destroyed() {}
 }
 </script>
 <style lang="less" scoped>
+
 </style>
