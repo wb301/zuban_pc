@@ -21,20 +21,29 @@ export default {
     data() {
 
         var menuList = [{
-            title: '用户统计',
-            path: 'user'
+            title: '数据统计',
+            children: [{
+                title: '用户统计',
+                path: 'user'
+            }, {
+                title: '订单统计',
+                path: 'order'
+            }]
         }, {
-            title: '订单统计',
-            path: 'order'
-        }, {
-            title: '收支明细',
-            path: 'moneyHistory'
+            title: '资金管理',
+            children: [{
+                title: '收支明细',
+                path: 'moneyHistory'
+            }]
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
             var masterList = [{
-                title: '提现申请',
-                path: 'withdrawal'
+                title: '资金管理',
+                children: [{
+                    title: '提现申请',
+                    path: 'withdrawal'
+                }]
             }, {
                 title: '代理商管理',
                 path: 'agent'
@@ -52,7 +61,20 @@ export default {
                 path: 'product'
             }];
             //只有平台能看到
-            menuList = menuList.concat(masterList);
+            menuList = menuList.reduce(function(coll, item) {
+                var list = [];
+                for (var i = 0; i < coll.length; i++) {
+                    list.push(coll[i].title);
+                }
+                if (list.indexOf(item.title) < 0) {
+                    coll.push(item);
+                }
+                if (list.indexOf(item.title) > -1) {
+                    item.children = item.children.concat(coll[list.indexOf(item.title)].children);
+                    coll[list.indexOf(item.title)].children = item.children;
+                }
+                return coll;
+            }, masterList);
         }
 
         return {

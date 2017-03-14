@@ -1,8 +1,8 @@
 <template>
     <aside class="main-sidebar">
-        <el-menu default-active="1" router class="el-menu-vertical-demo" theme="dark">
+        <el-menu router class="el-menu-vertical-demo" theme="dark">
             <template v-for="(item,index) in sideList">
-                <el-submenu index="1" v-if="item.children">
+                <el-submenu :index="item.title" v-if="item.children">
                     <template slot="title">{{item.title}}</template>
                     <el-menu-item :index="item2.path" :route="{path: '/'+item2.path}" v-for="(item2,index) in item.children">{{item2.title}}</el-menu-item>
                 </el-submenu>

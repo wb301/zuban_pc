@@ -69,7 +69,7 @@ NormalHelper.delCookie = function(name) {
 
 //用户数据
 NormalHelper.userInfo = function() {
-    return NormalHelper.getCookie(GlobalModel.COOKIE_USER_INFO) ? JSON.parse(NormalHelper.getCookie(GlobalModel.COOKIE_USER_INFO)) : { nick_name: '未登录', account: '', token: null, server_phone: "4008817673", as:"10"}
+    return NormalHelper.getCookie(GlobalModel.COOKIE_USER_INFO) ? JSON.parse(NormalHelper.getCookie(GlobalModel.COOKIE_USER_INFO)) : { nick_name: '未登录', account: '', token: null, server_phone: "4008817673", as: "10" }
 }
 NormalHelper.setUserInfo = function(response) {
     NormalHelper.setCookie(GlobalModel.COOKIE_USER_INFO, JSON.stringify(response));
@@ -140,6 +140,17 @@ NormalHelper.getPostion = function(callback) {
     }
     return NormalHelper.cur_postion;
 };
+// 去重
+NormalHelper.unique = function(arr) {
+    var unique = {};
+    arr.forEach(function(arr) {
+        unique[JSON.stringify(arr)] = arr;
+    });
+    arr = Object.keys(unique).map(function(u) {
+        return JSON.parse(u);
+    });
+    return arr;
+}
 
 NormalHelper.isWeixin = function() {
     var ua = navigator.userAgent.toLowerCase();
