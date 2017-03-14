@@ -51,7 +51,7 @@ export default {
                 success: (response) => {
                     NormalHelper.setUserInfo(response);
                     this.$router.push({
-                        path: '/agent'
+                        path: '/order'
                     });
                 },
                 fail: (response) => {

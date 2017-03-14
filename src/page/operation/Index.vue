@@ -19,14 +19,43 @@ export default {
         MainSidebar
     },
     data() {
-        return {
-            menuList: [{
+
+        var menuList = [{
+            title: '用户统计',
+            path: 'order'
+        },{
+            title: '订单统计',
+            path: 'order'
+        },{
+            title: '收支明细',
+            path: 'order'
+        }];
+        var managerType = NormalHelper.userInfo()["manager_type"];
+        if(managerType > 0){
+
+            var masterList = [{
+                title: '提现申请',
+                path: 'agent'
+            },{
                 title: '代理商管理',
                 path: 'agent'
-            }, {
-                title: '订单统计',
-                path: 'order'
-            }]
+            },{
+                title: '服务类型配置',
+                path: 'agent'
+            },{
+                title: '费率配置',
+                path: 'agent'
+            },{
+                title: '内容审核',
+                path: 'agent'
+            }];
+
+            //只有平台能看到
+            menuList = menuList.concat(masterList);
+        }
+
+        return {
+            menuList: menuList
         }
     },
     created: function() {
