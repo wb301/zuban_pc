@@ -23,7 +23,7 @@ export default {
         var menuList = [{
             title: '用户统计',
             path: 'user'
-        },{
+        }, {
             title: '订单统计',
             path: 'order'
         }, {
@@ -35,7 +35,7 @@ export default {
             var masterList = [{
                 title: '提现申请',
                 path: 'withdraw'
-            },{
+            }, {
                 title: '代理商管理',
                 path: 'agent'
             }, {
@@ -45,11 +45,9 @@ export default {
                 title: '费率配置',
                 path: 'agent'
             }, {
-                path: 'serverSystem'
-            },{
                 title: '费率配置',
                 path: 'priceSystem'
-            },{
+            }, {
                 title: '内容审核',
                 path: 'product'
             }];
