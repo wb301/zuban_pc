@@ -111,7 +111,10 @@ export default {
                     type: 'success',
                     message: '修改成功!'
                 });
-                this.getCategoryList();
+                if (parseInt(p_data.level) > 2)
+                    this.getCategoryList(p_data.parent_id);
+                else
+                    this.getCategoryList();
             })
         },
         createCategoryInfo(p_obj, callback) {
