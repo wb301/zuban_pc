@@ -130,7 +130,7 @@ export default {
             };
 
             if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
+                param.region = this.form.region3;
             }
             var p_obj = {
                 action: '',
