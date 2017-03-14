@@ -25,7 +25,21 @@ const router = new Router({
                 require(['./page/agent/edit/Index.vue'], resolve)
             }
         }]
-    }, {
+    },
+        {
+            path: '/order',
+            component: function(resolve) {
+                require(['./page/order/Index.vue'], resolve)
+            },
+            children: [{
+                path: '',
+                component: function(resolve) {
+                    require(['./page/order/list/Index.vue'], resolve)
+                }
+            }
+            ]
+        },
+        {
         path: '/',
         redirect: {
             path: '/index'
