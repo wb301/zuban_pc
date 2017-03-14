@@ -17,33 +17,21 @@ const router = new Router({
     }, {
         path: '/agent',
         component: function(resolve) {
-            require(['./page/agent/Index.vue'], resolve)
+            require(['./page/operation/agent/Index.vue'], resolve)
         },
         children: [{
             path: '',
             component: function(resolve) {
-                require(['./page/agent/list/Index.vue'], resolve)
+                require(['./page/operation/agent/list/Index.vue'], resolve)
             }
         }, {
             path: '/edit',
             component: function(resolve) {
-                require(['./page/agent/edit/Index.vue'], resolve)
+                require(['./page/operation/agent/edit/Index.vue'], resolve)
             }
         }]
     },
-        {
-            path: '/order',
-            component: function(resolve) {
-                require(['./page/order/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/order/list/Index.vue'], resolve)
-                }
-            }
-            ]
-        },
+
         {
         path: '/',
         redirect: {
