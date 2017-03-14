@@ -88,8 +88,8 @@
             changeState(index, rows) {
                 var param = {
                     c: 'Admin',
-                    m: 'User',
-                    a: 'updRegionManagerStatus',
+                    m: 'Withdraw',
+                    a: 'updWithdrawStatus',
                     id: rows[index].id,
                     status: rows[index].status
                 };
