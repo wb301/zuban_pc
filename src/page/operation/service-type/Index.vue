@@ -3,13 +3,13 @@
         <div class="container-body">
             <div class="header">
                 <div class="add-btn">
-                    <el-button @click="addCategory(false)">新增一级类型</el-button>
+                    <el-button @click="addFirst">新增一级类型</el-button>
                 </div>
             </div>
             <el-tree :data="categoryList" :props="defaultProps" node-key="id" accordion :expand-on-click-node="false" :render-content="renderContent">
             </el-tree>
         </div>
-        <el-dialog :title="dialogTitle" v-model="dialogFormVisible">
+        <el-dialog :title="dialogType>1?'编辑服务类型':'新增服务类型'" v-model="dialogFormVisible">
             <el-form ref="form" :model="form" label-width="130px">
                 <el-form-item label="类型名称：">
                     <el-input v-model="form.category_name"></el-input>
@@ -23,8 +23,8 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" v-if="dialogType==0" @click="addCategory(true)">确 定</el-button>
-                <el-button type="primary" v-else @click="addCategory2()">确 定</el-button>
+                <el-button type="primary" v-if="dialogType>1" @click="editCategory">确 定</el-button>
+                <el-button type="primary" v-else @click="addCategory">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -41,7 +41,6 @@ export default {
                 label: 'category_name'
             },
             dialogFormVisible: false,
-            dialogTitle: '新增服务类型',
             dialogType: 0,
             form: {
                 category_name: '',
@@ -102,6 +101,19 @@ export default {
             };
             AjaxHelper.PostRequest(p_obj);
         },
+        editCategory() {
+            this.updateCategoryInfo(p_data.id, {
+                category_name: this.form.category_name,
+                is_free: this.form.is_free
+            }, (res) => {
+                this.dialogFormVisible = false;
+                this.$message({
+                    type: 'success',
+                    message: '修改成功!'
+                });
+                this.getCategoryList();
+            })
+        },
         createCategoryInfo(p_obj, callback) {
             var param = {
                 categoryInfo: {}
@@ -122,18 +134,31 @@ export default {
         },
         addCategory(bool) {
             if (bool) {
-                this.createCategoryInfo({
+                let param = {
                     parent_id: 1,
                     category_name: this.form.category_name,
                     is_free: this.form.is_free,
                     sort: this.categoryList.length + 1
-                }, (res) => {
+                }
+                if (this.dialogType > 0) {
+                    param = {
+                        parent_id: p_data.id,
+                        category_name: this.form.category_name,
+                        is_free: this.form.is_free,
+                        sort: p_data.children ? p_data.children.length + 1 : 1
+                    }
+                }
+                this.createCategoryInfo(param, (res) => {
                     this.dialogFormVisible = false;
                     this.$message({
                         type: 'success',
                         message: '添加成功!'
                     });
-                    this.getCategoryList();
+                    if (this.dialogType > 0) {
+                        this.getCategoryList(p_data.id);
+                    } else {
+                        this.getCategoryList();
+                    }
                 })
             } else {
                 this.form = {
@@ -143,20 +168,9 @@ export default {
                 this.dialogFormVisible = true;
             }
         },
-        addCategory2() {
-            this.createCategoryInfo({
-                parent_id: p_data.id,
-                category_name: this.form.category_name,
-                is_free: this.form.is_free,
-                sort: p_data.children ? p_data.children.length + 1 : 1
-            }, (res) => {
-                this.dialogFormVisible = false;
-                this.$message({
-                    type: 'success',
-                    message: '添加成功!'
-                });
-                this.getCategoryList(p_data.id);
-            })
+        addFirst() {
+            this.dialogType = 0;
+            this.addCategory(false);
         },
         append(store, data) {
             p_store = store;
@@ -164,7 +178,16 @@ export default {
             this.dialogType = 1;
             this.addCategory(false);
         },
-        edit(store, data) {},
+        edit(store, data) {
+            p_store = store;
+            p_data = data;
+            this.dialogType = 2;
+            this.form = {
+                category_name: data.category_name,
+                is_free: "0"
+            };
+            this.dialogFormVisible = true;
+        },
         remove(store, data) {
             this.$confirm('删除后无法恢复，确认要删除该条记录？', '提示', {
                 confirmButtonText: '确定',
