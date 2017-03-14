@@ -43,6 +43,26 @@ export default {
             };
             AjaxHelper.GetRequest(p_obj);
         },
+        updateCategoryInfo(p_id, p_obj, callback) {
+            var param = {
+                categoryInfo: {
+                    id: p_id
+                }
+            };
+            if (p_obj) {
+                for (var key in p_obj) {
+                    param.categoryInfo[key] = p_obj[key];
+                }
+            }
+            var p_obj = {
+                action: '&c=Admin&m=Category&a=updateCategoryInfo',
+                param: param,
+                success: (response) => {
+                    callback(response);
+                }
+            };
+            AjaxHelper.PostRequest(p_obj);
+        },
         append(store, data) {
             console.log(data);
             // store.append({
@@ -51,18 +71,23 @@ export default {
             //     children: []
             // }, data);
         },
-
+        edit(store, data) {},
         remove(store, data) {
+            console.log(data);
             this.$confirm('删除后无法恢复，确认要删除该条记录？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
-                store.remove(data);
+                this.updateCategoryInfo(data.id, {
+                    status: -1
+                }, (res) => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    store.remove(data);
+                })
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -87,7 +112,7 @@ export default {
                         type: "text"
                     },
                     on: {
-                        click: () => this.append(store, data)
+                        click: () => this.edit(store, data)
                     }
                 }), h('el-button', {
                     'class': {},

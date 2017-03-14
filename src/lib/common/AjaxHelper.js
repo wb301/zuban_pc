@@ -27,7 +27,7 @@ AjaxHelper.GetRequest = function(p_obj) {
             if (p_obj.fail) {
                 p_obj.fail.apply(null, [response.data]);
             } else {
-                NormalHelper.alert(GlobalModel.RootVue, response.data.msg, 'error');
+                GlobalModel.RootVue.$message.error(response.data.msg);
             }
         }
     }, (response) => {
@@ -63,7 +63,7 @@ AjaxHelper.PostRequest = function(p_obj) {
             if (p_obj.fail) {
                 p_obj.fail.apply(null, [response.data]);
             } else {
-                NormalHelper.alert(GlobalModel.RootVue, response.data.msg, 'error');
+                GlobalModel.RootVue.$message.error(response.data.msg);
             }
         }
     }, (response) => {
