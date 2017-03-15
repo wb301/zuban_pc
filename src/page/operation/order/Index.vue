@@ -137,7 +137,7 @@
                     <el-table-column prop="memo" align="left" label="留言信息" min-width="100">
                     </el-table-column>
                 </el-table>
-                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
+                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :current-page="page" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -247,7 +247,7 @@ export default {
             }
             if (this.form.time != "") {
                 param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
-                param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
+                    param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
             if (this.form.orderNo != "") {
                 param.orderNo = this.form.orderNo;
@@ -274,7 +274,21 @@ export default {
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.getRegionManagerList();
+            var param = {};
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.sourse = this.form.region3;
+            }
+            if (this.form.time != "") {
+                param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
+                    param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
+            }
+            if (this.form.orderNo != "") {
+                param.orderNo = this.form.orderNo;
+            }
+            if (this.form.phone != "") {
+                param.phone = this.form.phone;
+            }
+            this.orderCommonFilter(param);
         }
     },
     destroyed() {}
