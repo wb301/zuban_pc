@@ -63,10 +63,10 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    this.form.account = response.account
-                    this.form.password = response.password
-                    this.form.nick_name = response.nick_name
-                    this.form.status = response.status
+                    this.form.account = response.account;
+                    this.form.password = response.password;
+                    this.form.nick_name = response.nick_name;
+                    this.form.status = response.status;
                 }
             };
             AjaxHelper.GetRequest(p_obj);
