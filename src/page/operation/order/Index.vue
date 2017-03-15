@@ -175,11 +175,9 @@ export default {
             if (this.form.region3 != "" && this.form.region3 != '1') {
                 param.sourse = this.form.region3;
             }
-            var startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
-                endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             if (this.form.time != "") {
-                param.startTime = startTime;
-                param.endTime = endTime;
+                param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
+                param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
             if (this.form.orderNo != "") {
                 param.orderNo = this.form.orderNo;

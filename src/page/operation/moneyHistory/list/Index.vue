@@ -138,10 +138,10 @@ export default {
                 param["status"] = this.form.status;
             }
             if(this.form.sTime > 0){
-                param["sTime"] = this.form.sTime;
+                param["sTime"] = new Date(this.form.sTime).Format("yyyy-MM-dd hh:mm:ss");
             }
             if(this.form.eTime > 0){
-                param["eTime"] = this.form.eTime;
+                param["eTime"] = new Date(this.form.eTime).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
 
             var p_obj = {
