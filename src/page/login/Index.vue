@@ -51,7 +51,7 @@ export default {
                 success: (response) => {
                     NormalHelper.setUserInfo(response);
                     this.$router.push({
-                        path: '/user'
+                        path: '/index'
                     });
                 }
             };
