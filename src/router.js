@@ -46,7 +46,20 @@ const router = new Router({
                     require(['./page/operation/user/list/Index.vue'], resolve)
                 }
             }]
-        }, {
+        },
+            {
+                path: '/divided',
+                component: function(resolve) {
+                    require(['./page/operation/divided/Index.vue'], resolve)
+                },
+                children: [{
+                    path: '',
+                    component: function(resolve) {
+                        require(['./page/operation/divided/list/Index.vue'], resolve)
+                    }
+                }]
+            },
+            {
             path: '/moneyHistory',
             component: function(resolve) {
                 require(['./page/operation/moneyHistory/Index.vue'], resolve)

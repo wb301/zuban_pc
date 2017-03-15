@@ -23,7 +23,7 @@
                     </el-table-column>
                     <el-table-column prop="price" align="center" label="提现金额" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="status_name" align="center" label="状态" min-width="90">
+                    <el-table-column prop="status_name" align="center" label="状态" min-width="120">
                     </el-table-column>
                    <!-- <el-table-column prop="nick_name" align="center" label="用户名" min-width="100">
                     </el-table-column>-->
@@ -32,7 +32,7 @@
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
                             <el-button @click="changeState(scope.$index, List)" size="small">
-                                {{scope.row.status==1?"":"已完成"}}
+                                {{scope.row.status==1?"进行中":"已完成"}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -72,6 +72,10 @@
                             success: (response) => {
                             for (var i = 0; i < response.list.length; i++) {
                        response.list[i].status_name = response.list[i].status == 1 ? "提现成功" : "提现中";
+                    if(response.list[i].from=='YHK'){
+                        response.list[i].account ='收款银行:'+response.list[i].bank_name+'   银行账号：'+response.list[i].account+'    账号姓名：'+response.list[i].user_name;
+
+                    }
                 }
                 this.List = response.list;
                 this.total = parseInt(response.total);

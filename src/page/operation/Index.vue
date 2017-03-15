@@ -34,7 +34,12 @@ export default {
             children: [{
                 title: '收支明细',
                 path: 'moneyHistory'
-            }]
+            },
+                {
+                    title: '分成明细',
+                    path: 'divided'
+                }
+            ]
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
