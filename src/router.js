@@ -46,6 +46,11 @@ const router = new Router({
                 require(['./page/operation/divided/Index.vue'], resolve)
             }
         }, {
+            path: '/agent-settlement',
+            component: function(resolve) {
+                require(['./page/operation/agent-settlement/Index.vue'], resolve)
+            }
+        }, {
             path: '/orderReturn',
             component: function(resolve) {
                 require(['./page/operation/orderReturn/Index.vue'], resolve)

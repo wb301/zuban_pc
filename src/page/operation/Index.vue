@@ -38,7 +38,7 @@ export default {
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
-            var masterList = [ {
+            var masterList = [{
                 title: '代理商管理',
                 path: 'agent'
             }, {
@@ -56,15 +56,18 @@ export default {
                     title: '系统配置',
                     path: 'rate'
                 }]
-            },{
+            }, {
                 title: '资金管理',
                 children: [{
                     title: '收支明细-平台',
                     path: 'moneyHistory'
-                },{
+                }, {
+                    title: '代理商结算',
+                    path: 'agent-settlement'
+                }, {
                     title: '提现申请',
                     path: 'withdrawal'
-                },{
+                }, {
                     title: '退款申请',
                     path: 'orderReturn'
                 }]
