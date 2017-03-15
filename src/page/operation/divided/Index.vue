@@ -180,11 +180,12 @@ export default {
             AjaxHelper.GetRequest(p_obj);
         },
         accessGetDividedList() {
-            var param = {
-                status: this.form.status
-            };
+            var param = {};
             if (this.form.region3 != "" && this.form.region3 != '1') {
                 param.region_code = this.form.region3;
+            }
+            if (this.form.status > 0) {
+                param.status = this.form.status;
             }
             if (this.form.time != "") {
                 param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");

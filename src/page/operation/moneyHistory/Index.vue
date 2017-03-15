@@ -4,34 +4,30 @@
             <div class="header">
                 <div>
                     <el-form ref="form" :model="form" label-width="80px">
-                        <el-form-item label="订单编号">
+                        <el-form-item label="订单编号" prop="orderNo">
                             <el-input v-model="form.orderNo"></el-input>
                         </el-form-item>
-                        <el-form-item label="交易类型">
-                            <el-col :span="21">
+                        <el-col :span="12">
+                            <el-form-item label="交易类型">
                                 <el-form-item prop="status">
-                                    <el-select class="select" v-model="form.status" placeholder="全部">
+                                    <el-select v-model="form.status" placeholder="全部">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                        </el-form-item>
-                        <el-form-item label="交易时间">
-                            <el-col :span="11">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="form.sTime" style="width: 100%;"></el-date-picker>
-                            </el-col>
-                            <el-col class="line" :span="1">-</el-col>
-                            <el-col :span="11">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="form.eTime" style="width: 100%;"></el-date-picker>
-                            </el-col>
-                        </el-form-item>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="交易时间" prop="time">
+                                <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm()">提交</el-button>
                             <el-button @click="resetForm()">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
-
                 <div>
                     <div class="line">
                         <b style="font-size: 20px" class="line">平台交易金额: {{maxPrice}}元</b>
@@ -66,10 +62,9 @@ export default {
     data() {
         return {
             form: {
-              orderNo: '',
-              status: '',
-              sTime: '',
-              eTime: ''
+                orderNo: '',
+                status: '',
+                time: ''
             },
             tradeList: [],
             moneyHistoryList: [],
@@ -91,10 +86,10 @@ export default {
             this.tradeList = [{
                 name: "全部",
                 code: 0
-            },{
+            }, {
                 name: "收入",
                 code: 1
-            },{
+            }, {
                 name: "提现",
                 code: 2
             }];
@@ -121,7 +116,7 @@ export default {
             };
             AjaxHelper.GetRequest(p_obj);
         },
-        getMoneyHistoryList() {
+        getMoneyHistoryList(p_obj) {
             var param = {
                 c: 'Admin',
                 m: 'MoneyHistory',
@@ -129,20 +124,11 @@ export default {
                 page: this.page,
                 row: 10
             };
-
-            if(this.form.orderNo.length > 0){
-                param["orderNo"] = this.form.orderNo;
+            if (p_obj) {
+                for (var key in p_obj) {
+                    param[key] = p_obj[key];
+                }
             }
-            if(this.form.status > 0){
-                param["status"] = this.form.status;
-            }
-            if(this.form.sTime > 0){
-                param["sTime"] = new Date(this.form.sTime).Format("yyyy-MM-dd hh:mm:ss");
-            }
-            if(this.form.eTime > 0){
-                param["eTime"] = new Date(this.form.eTime).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
-            }
-
             var p_obj = {
                 action: '',
                 param: param,
@@ -156,16 +142,30 @@ export default {
             };
             AjaxHelper.GetRequest(p_obj);
         },
+        accessGetMoneyHistoryList() {
+            var param = {};
+            if (this.form.orderNo.length > 0) {
+                param["orderNo"] = this.form.orderNo;
+            }
+            if (this.form.status > 0) {
+                param["status"] = this.form.status;
+            }
+            if (this.form.time != "") {
+                param.sTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
+                param.eTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
+            }
+            this.getMoneyHistoryList(param);
+        },
         submitForm(formName) {
             this.page = 1;
-            this.getMoneyHistoryList();
+            this.accessGetMoneyHistoryList();
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.getMoneyHistoryList();
+            this.accessGetMoneyHistoryList();
         }
     },
     destroyed() {}
@@ -177,9 +177,6 @@ export default {
     .header {
         .search {
             margin-top: 15px;
-            .select {
-                display: block;
-            }
         }
     }
     .table {
