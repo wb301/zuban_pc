@@ -187,7 +187,7 @@ export default {
             this.dialogType = 2;
             this.form = {
                 category_name: data.category_name,
-                is_free: "0"
+                is_free: data.is_free,
             };
             this.dialogFormVisible = true;
         },
