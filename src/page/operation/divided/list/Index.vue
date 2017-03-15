@@ -6,39 +6,63 @@
                 </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
-                        <el-form-item label="代理商手机号码" prop="phone">
-                            <el-input v-model.number="form.phone"></el-input>
-                        </el-form-item>
-                        <el-form-item label="代理商类型">
+                        <el-form-item label="结算时间">
                             <el-col :span="8">
+                                <el-date-picker type="date" placeholder="选择日期" v-model="form.sTime" style="width: 100%;"></el-date-picker>
+                            </el-col>
+                            <el-col class="line" :span="1">———</el-col>
+                            <el-col :span="8">
+                                <el-date-picker type="date" placeholder="选择日期" v-model="form.eTime" style="width: 100%;"></el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item label="所属地区">
+                            <el-col :span="4">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="8">
+                            <el-col :span="4">
                                 <el-form-item prop="region2">
                                     <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="8">
+                            <el-col :span="4">
                                 <el-form-item prop="region3">
                                     <el-select class="select" v-model="form.region3" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
+                            <el-form-item label="交易类型">
+                                <el-col :span="5">
+                                    <el-form-item prop="status">
+                                        <el-select class="select" v-model="form.status" placeholder="全部">
+                                            <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                            </el-form-item>
                         </el-form-item>
+
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('form')">提交</el-button>
                             <el-button @click="resetForm('form')">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
+                <div>
+                    <div class="line" style="margin-top: 10px; margin-bottom: 20px; font-size: 20px;">
+                        <b style="padding-left: 120px">当前账号余额: {{report.balance}}元</b>
+                        <b style="padding-left: 120px">累计抽成金额: {{report.cumulative}}元</b>
+                        <b style="padding-left: 120px">已销账金额: {{report.withdrawal}}元</b>
+                    </div>
+                </div>
             </div>
+
             <div class="table">
                 <el-table :data="List" border style="width: 100%">
                     <el-table-column prop="id" align="center" label="编号" min-width="45">
@@ -145,6 +169,7 @@ export default {
                         response.list[i].price_type = response.list[i].price_type == 1 ? "分成" : "平台结算";
 
                          }
+            this.report = response.report;
                     this.List = response.list;
                     this.total = parseInt(response.total);
             }}
