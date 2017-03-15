@@ -2,43 +2,60 @@
     <div>
         <div class="container-body">
             <div class="header">
-                <div class="add-btn">
-                    <el-button>新增代理商</el-button>
-                </div>
                 <div class="search">
-                    <el-form :model="form" ref="form" label-width="120px">
-                        <el-form-item label="代理商手机号码" prop="phone">
-                            <el-input v-model.number="form.phone"></el-input>
+                    <el-form :model="form" ref="form" label-width="130px">
+                        <el-form-item label="下单时间：" prop="time">
+                            <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
+                            </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="代理商类型">
+                        <el-form-item label="服务地区">
                             <el-col :span="8">
-                                <el-form-item prop="region1">
+                                <el-form-item>
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item prop="region2">
+                                <el-form-item>
                                     <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item prop="region3">
+                                <el-form-item>
                                     <el-select class="select" v-model="form.region3" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
+                        <el-col :span="11">
+                            <el-form-item label="订单编号：" prop="phone">
+                                <el-input v-model.number="form.orderNo" placeholder="请输入订单编号"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="11">
+                            <el-form-item label="购买用户手机号：" prop="phone">
+                                <el-input v-model.number="form.phone" placeholder="请输入购买用户手机号"></el-input>
+                            </el-form-item>
+                        </el-col>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('form')">提交</el-button>
                             <el-button @click="resetForm('form')">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
+            </div>
+            <div>
+                <el-radio-group v-model="orderStatus">
+                    <el-radio-button label="-1">全部</el-radio-button>
+                    <el-radio-button label="0">待付款</el-radio-button>
+                    <el-radio-button label="1">待确认</el-radio-button>
+                    <el-radio-button label="5">进行中</el-radio-button>
+                    <el-radio-button label="10">已完成</el-radio-button>
+                </el-radio-group>
             </div>
             <div class="table">
                 <el-table :data="agentList" border style="width: 100%">
@@ -56,16 +73,6 @@
                     </el-table-column>
                     <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
                     </el-table-column>
-                    <el-table-column fixed="right" align="center" label="操作" width="140">
-                        <template scope="scope">
-                            <el-button @click="edit(scope.$index, agentList)" size="small">
-                                编辑
-                            </el-button>
-                            <el-button @click="changeState(scope.$index, agentList)" size="small">
-                                {{scope.row.status==1?"关闭":"开启"}}
-                            </el-button>
-                        </template>
-                    </el-table-column>
                 </el-table>
                 <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
@@ -79,15 +86,18 @@ export default {
     data() {
         return {
             form: {
+                time: '',
                 phone: '',
+                orderNo: '',
                 region1: '',
                 region2: '',
                 region3: ''
             },
+            orderStatus: -1,
             region1List: [],
             region2List: [],
             region3List: [],
-            agentList: [],
+            orderList: [],
             total: 0,
             page: 1
 
@@ -95,7 +105,7 @@ export default {
     },
     mounted() {
         this.getRegionList();
-        this.getRegionManagerList();
+        this.orderCommonFilter();
     },
     methods: {
         getRegionList() {
@@ -137,59 +147,50 @@ export default {
                 }
             }
         },
-        getRegionManagerList() {
+        orderCommonFilter(p_obj) {
             var param = {
                 c: 'Admin',
-                m: 'User',
-                a: 'getRegionManagerList',
+                m: 'Order',
+                a: 'orderCommonFilter',
                 page: this.page,
                 row: 10
             };
-            if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
+            if (p_obj) {
+                for (var key in p_obj) {
+                    param[key] = p_obj[key];
+                }
             }
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                    for (var i = 0; i < response.list.length; i++) {
-                        response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
-                        response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
-                    }
-                    this.agentList = response.list;
+                    this.orderList = response.list;
                     this.total = parseInt(response.total);
                 }
             };
             AjaxHelper.GetRequest(p_obj);
         },
-        edit(index, rows) {
-
-        },
-        changeState(index, rows) {
-            var param = {
-                c: 'Admin',
-                m: 'User',
-                a: 'updRegionManagerStatus',
-                id: rows[index].id,
-                status: rows[index].status
-            };
-            var p_obj = {
-                action: '',
-                param: param,
-                success: (response) => {
-                    row[index].status = row[index].status == 1 ? 0 : 1;
-                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
-                }
-            };
-            AjaxHelper.GetRequest(p_obj);
-        },
         submitForm(formName) {
+            var param = {};
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.sourse = this.form.region3;
+            }
+            var startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
+                endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
+            if (this.form.time != "") {
+                param.startTime = startTime;
+                param.endTime = endTime;
+            }
+            if (this.form.orderNo != "") {
+                param.orderNo = this.form.orderNo;
+            }
+            if (this.form.phone != "") {
+                param.phone = this.form.phone;
+            }
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if (this.form.region3 != "") {
-                        this.page = 1;
-                        this.getRegionManagerList();
-                    }
+                    this.page = 1;
+                    this.orderCommonFilter(param);
                 } else {
                     return false;
                 }
@@ -223,6 +224,7 @@ export default {
         }
     }
     .table {
+        margin-top: 10px;
         .el-pagination {
             float: right;
             margin: 5px 20px 0 0;
