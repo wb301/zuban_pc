@@ -2,7 +2,7 @@
     <div>
         <div class="container-body">
             <h1>平台手续费配置</h1>
-            <div class="header">平台手续费:10%
+            <div class="header">平台手续费:{{form.poundage}}%
                 <el-button type="text" @click="dialogFormVisible=true">编辑</el-button>
             </div>
             <h1>会员规则配置</h1>
@@ -43,7 +43,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="poundageChange">确 定</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -59,7 +59,7 @@ export default {
                 account: '7'
             }],
             form: {
-                poundage: 10
+                poundage: 0
             },
             dialogFormVisible: false
         }
@@ -68,11 +68,46 @@ export default {
 
     },
     mounted() {
-
+        this.getSysConfigList();
     },
     methods: {
-        poundageChange() {
-            console.log(this.form.poundage);
+        getSysConfigList() {
+            var param = {
+                c: 'Admin',
+                m: 'Sys',
+                a: 'getSysConfigList'
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    for (var i = 0; i < response.length; i++) {
+                        if (response[i].config_key == "AS_PLATFORM") {
+                            this.form.poundage = parseFloat(response[i].config_value) / 1000;
+                        }
+                    }
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        updateSysConfig() {
+            var param = {
+                key: 'AS_PLATFORM',
+                value: this.form.poundage * 1000
+            };
+            var p_obj = {
+                action: '&c=Admin&m=Sys&a=updateSysConfig',
+                param: param,
+                success: (response) => {
+                    this.dialogFormVisible = false;
+                    this.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                    });
+                    this.getSysConfigList();
+                }
+            };
+            AjaxHelper.PostRequest(p_obj);
         }
     },
     destroyed() {}
