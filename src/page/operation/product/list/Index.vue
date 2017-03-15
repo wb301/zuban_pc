@@ -141,17 +141,21 @@ export default {
             AjaxHelper.GetRequest(p_obj);
         },
         changeState(index, rows) {
+            var status = 0;
+            if(rows[index].status == 0){
+                status = 1;
+            }
             var param = {
                 productInfo:{
                     id: rows[index].id,
-                    status: rows[index].status
+                    status: status
                 }
             };
             var p_obj = {
                 action: '&c=Admin&m=Product&a=updateProductBySys',
                 param: param,
                 success: (response) => {
-                    rows[index].status = rows[index].status == 1 ? 0 : 1;
+                    rows[index].status = status;
                     rows[index].status_name = rows[index].status == 1 ? "开启" : "关闭";
                 }
             };
