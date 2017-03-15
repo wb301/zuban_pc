@@ -33,17 +33,8 @@ export default {
             title: '资金管理',
             children: [{
                 title: '收支明细-代理商',
-                path: 'moneyHistory'
-            },
-                {
-                    title: '分成明细',
-                    path: 'divided'
-                },
-                {
-                    title: '退款申请',
-                    path: 'orderReturn'
-                }
-            ]
+                path: 'divided'
+            }]
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
@@ -72,7 +63,7 @@ export default {
                     path: 'withdrawal'
                 },{
                     title: '退款申请',
-                    path: 'returnMon'
+                    path: 'orderReturn'
                 }]
             }];
 
