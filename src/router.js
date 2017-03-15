@@ -60,6 +60,18 @@ const router = new Router({
                 }]
             },
             {
+                path: '/orderReturn',
+                component: function(resolve) {
+                    require(['./page/operation/orderReturn/Index.vue'], resolve)
+                },
+                children: [{
+                    path: '',
+                    component: function(resolve) {
+                        require(['./page/operation/orderReturn/list/Index.vue'], resolve)
+                    }
+                }]
+            },
+            {
             path: '/moneyHistory',
             component: function(resolve) {
                 require(['./page/operation/moneyHistory/Index.vue'], resolve)

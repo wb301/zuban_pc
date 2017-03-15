@@ -38,6 +38,10 @@ export default {
                 {
                     title: '分成明细',
                     path: 'divided'
+                },
+                {
+                    title: '退款申请',
+                    path: 'orderReturn'
                 }
             ]
         }];
