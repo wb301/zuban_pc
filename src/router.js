@@ -66,13 +66,7 @@ const router = new Router({
             path: '/moneyHistory',
             component: function(resolve) {
                 require(['./page/operation/moneyHistory/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/moneyHistory/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/order',
             component: function(resolve) {
