@@ -80,7 +80,7 @@ export default {
         return {
             form: {
                 time: '',
-                phone: '',
+                status: 0,
                 region1: '',
                 region2: '',
                 region3: ''
@@ -98,8 +98,21 @@ export default {
     mounted() {
         this.getRegionList();
         this.getDividedList();
+        this.getTradeList();
     },
     methods: {
+        getTradeList() {
+            this.tradeList = [{
+                name: "全部",
+                code: 0
+            }, {
+                name: "收入",
+                code: 1
+            }, {
+                name: "提现",
+                code: 2
+            }];
+        },
         getRegionList() {
             var param = {
                 c: 'Admin',
@@ -167,7 +180,9 @@ export default {
             AjaxHelper.GetRequest(p_obj);
         },
         accessGetDividedList() {
-            var param = {};
+            var param = {
+                status: this.form.status
+            };
             if (this.form.region3 != "" && this.form.region3 != '1') {
                 param.region_code = this.form.region3;
             }
