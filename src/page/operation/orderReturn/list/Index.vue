@@ -6,10 +6,13 @@
                 </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
-                        <el-form-item label="代理商手机号码" prop="phone">
+                        <el-form-item label="手机号码" prop="phone">
                             <el-input v-model.number="form.phone"></el-input>
                         </el-form-item>
-                        <el-form-item label="代理商类型">
+                        <el-form-item label="订单编号" prop="order_no">
+                            <el-input v-model.number="form.order_no"></el-input>
+                        </el-form-item>
+                        <el-form-item label="服务地区">
                             <el-col :span="8">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
@@ -41,15 +44,19 @@
             </div>
             <div class="table">
                 <el-table :data="List" border style="width: 100%">
-                    <el-table-column prop="id" align="center" label="编号" min-width="45">
+                    <el-table-column prop="order_no" align="center" label="订单编号" min-width="120">
                     </el-table-column>
-                    <el-table-column prop="price_type" align="center" label="交易类型" min-width="80">
+                    <el-table-column prop="price" align="center" label="交易金额" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="remark" align="center" label="说明" min-width="400">
+                    <el-table-column prop="category_name" align="center" label="服务类型" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="price" align="center" label="金额" min-width="80">
+                    <el-table-column prop="status" align="center" label="状态" min-width="80">
                     </el-table-column>
-                    <el-table-column prop="create_time" align="center" label="入账时间" min-width="100">
+                    <el-table-column prop="receiver" align="center" label="用户姓名" min-width="80">
+                    </el-table-column>
+                    <el-table-column prop="phone" align="center" label="手机号" min-width="100">
+                    </el-table-column>
+                    <el-table-column prop="update_time" align="center" label="申请时间" min-width="100">
                     </el-table-column>
                 <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
@@ -126,24 +133,26 @@ export default {
         getDividedList() {
             var param = {
                 c: 'Admin',
-                m: 'MoneyHistory',
-                a: 'getDividedList',
+                m: 'Order',
+                a: 'orderReturnFilter',
                 startTime: '',
                 endTime: '',
                 status:'',
+                phone:'',
+                orderNo:'',
+                sourse:'',
                 page: this.page,
                 row: 10
             };
             if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
+                param.sourse = this.form.region3;
             }
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
                     for (var i = 0; i < response.list.length; i++) {
-                        response.list[i].price_type = response.list[i].price_type == 1 ? "分成" : "平台结算";
-
+                        response.list[i].status = response.list[i].status == 11 ? "申请退款" : "退款已完成";
                          }
                     this.List = response.list;
                     this.total = parseInt(response.total);
@@ -156,8 +165,8 @@ export default {
         changeState(index, rows) {
             var param = {
                 c: 'Admin',
-                m: 'User',
-                a: 'updRegionManagerStatus',
+                m: 'Order',
+                a: '',
                 id: rows[index].id,
                 status: rows[index].status > 0 ? 0 : 1
             };
