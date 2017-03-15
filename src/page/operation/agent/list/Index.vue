@@ -3,7 +3,7 @@
         <div class="container-body">
             <div class="header">
                 <div class="add-btn">
-                    <el-button @click="gotoEdit(0)">新增代理商</el-button>
+                    <el-button @click="addRegionManager">新增代理商</el-button>
                 </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
@@ -58,16 +58,13 @@
                     </el-table-column>
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
-                            <el-button @click="gotoEdit(scope.row.id)" size="small">
-                                编辑
-                            </el-button>
                             <el-button @click="changeState(scope.$index, agentList)" size="small">
                                 {{scope.row.status==1?"关闭":"开启"}}
                             </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :current-page="page" :page-size="10" layout="total, prev, pager, next" :total="total">
+                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -100,7 +97,7 @@ export default {
     methods: {
         getRegionList() {
             var param = {
-                c: 'Admin',
+                c: 'Zb',
                 m: 'Region',
                 a: 'getRegionList',
                 fixAll: 1
@@ -137,7 +134,7 @@ export default {
                 }
             }
         },
-        getRegionManagerList(p_obj) {
+        getRegionManagerList() {
             var param = {
                 c: 'Admin',
                 m: 'User',
@@ -145,10 +142,8 @@ export default {
                 page: this.page,
                 row: 10
             };
-            if (p_obj) {
-                for (var key in p_obj) {
-                    param[key] = p_obj[key];
-                }
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.region_code = this.form.region3;
             }
             var p_obj = {
                 action: '',
@@ -163,6 +158,11 @@ export default {
                 }
             };
             AjaxHelper.GetRequest(p_obj);
+        },
+        addRegionManager() {
+            this.$router.push({
+                path: '/agent-edit'
+            });
         },
         changeState(index, rows) {
             var param = {
@@ -185,8 +185,10 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.page = 1;
-                    this.accessGetRegionManagerList();
+                    if (this.form.region3 != "") {
+                        this.page = 1;
+                        this.getRegionManagerList();
+                    }
                 } else {
                     return false;
                 }
@@ -200,21 +202,9 @@ export default {
             this.form.region2 = this.region2List[0].code;
             this.form.region3 = this.region3List[0].code;
         },
-        accessGetRegionManagerList() {
-            var param = {};
-            if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
-            }
-            this.getRegionManagerList(param);
-        },
         handleCurrentChange(val) {
             this.page = val;
-            this.accessGetRegionManagerList();
-        },
-        gotoEdit(str) {
-            this.$router.push({
-                path: '/agent-edit/' + str
-            })
+            this.getRegionManagerList();
         }
     },
     destroyed() {}
