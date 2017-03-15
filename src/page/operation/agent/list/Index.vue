@@ -3,7 +3,7 @@
         <div class="container-body">
             <div class="header">
                 <div class="add-btn">
-                    <el-button>新增代理商</el-button>
+                    <el-button @click="gotoEdit(0)">新增代理商</el-button>
                 </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
@@ -58,7 +58,7 @@
                     </el-table-column>
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
-                            <el-button @click="edit(scope.$index, agentList)" size="small">
+                            <el-button @click="gotoEdit(scope.row.id)" size="small">
                                 编辑
                             </el-button>
                             <el-button @click="changeState(scope.$index, agentList)" size="small">
@@ -164,9 +164,6 @@ export default {
             };
             AjaxHelper.GetRequest(p_obj);
         },
-        edit(index, rows) {
-
-        },
         changeState(index, rows) {
             var param = {
                 c: 'Admin',
@@ -213,6 +210,11 @@ export default {
         handleCurrentChange(val) {
             this.page = val;
             this.accessGetRegionManagerList();
+        },
+        gotoEdit(str) {
+            this.$router.push({
+                path: '/agent-edit/' + str
+            })
         }
     },
     destroyed() {}

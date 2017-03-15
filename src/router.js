@@ -30,7 +30,7 @@ const router = new Router({
                     require(['./page/operation/agent/list/Index.vue'], resolve)
                 }
             }, {
-                path: '/edit',
+                path: '/agent-edit/:pid',
                 component: function(resolve) {
                     require(['./page/operation/agent/edit/Index.vue'], resolve)
                 }
@@ -46,32 +46,29 @@ const router = new Router({
                     require(['./page/operation/user/list/Index.vue'], resolve)
                 }
             }]
-        },
-            {
-                path: '/divided',
-                component: function(resolve) {
-                    require(['./page/operation/divided/Index.vue'], resolve)
-                },
-                children: [{
-                    path: '',
-                    component: function(resolve) {
-                        require(['./page/operation/divided/list/Index.vue'], resolve)
-                    }
-                }]
+        }, {
+            path: '/divided',
+            component: function(resolve) {
+                require(['./page/operation/divided/Index.vue'], resolve)
             },
-            {
-                path: '/orderReturn',
+            children: [{
+                path: '',
                 component: function(resolve) {
-                    require(['./page/operation/orderReturn/Index.vue'], resolve)
-                },
-                children: [{
-                    path: '',
-                    component: function(resolve) {
-                        require(['./page/operation/orderReturn/list/Index.vue'], resolve)
-                    }
-                }]
+                    require(['./page/operation/divided/list/Index.vue'], resolve)
+                }
+            }]
+        }, {
+            path: '/orderReturn',
+            component: function(resolve) {
+                require(['./page/operation/orderReturn/Index.vue'], resolve)
             },
-            {
+            children: [{
+                path: '',
+                component: function(resolve) {
+                    require(['./page/operation/orderReturn/list/Index.vue'], resolve)
+                }
+            }]
+        }, {
             path: '/moneyHistory',
             component: function(resolve) {
                 require(['./page/operation/moneyHistory/Index.vue'], resolve)
