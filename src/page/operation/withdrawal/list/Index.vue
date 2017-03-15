@@ -99,7 +99,7 @@ export default {
     methods: {
         getRegionList() {
             var param = {
-                c: 'Zb',
+                c: 'Admin',
                 m: 'Region',
                 a: 'getRegionList',
                 fixAll: 1

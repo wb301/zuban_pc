@@ -38,6 +38,7 @@ export default {
     data() {
         return {
             form: {
+                id: this.$route.params.pid,
                 phone: '',
                 password: '',
                 nick_name: '',
@@ -45,13 +46,29 @@ export default {
             }
         }
     },
-    created() {
-
-    },
     mounted() {
-
+        if (this.form.id > 0) {
+            this.getRegionManagerInfo();
+        }
     },
-    methods: {},
+    methods: {
+        getRegionManagerInfo() {
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'getRegionManagerInfo',
+                id: this.form.id
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    console.log(response);
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        }
+    },
     destroyed() {}
 }
 </script>
