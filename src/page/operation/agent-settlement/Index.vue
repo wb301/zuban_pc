@@ -51,6 +51,16 @@
                     </el-table-column>
                     <el-table-column prop="memo" align="left" label="留言信息" min-width="100">
                     </el-table-column>
+                    <el-table-column fixed="right" align="center" label="操作" min-width="220">
+                        <template scope="scope">
+                            <el-button @click="settlementMoney(scope.row)" size="small">
+                                结算金额
+                            </el-button>
+                            <el-button @click="settlementRecord(scope.row)" size="small">
+                                查看结算记录
+                            </el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <el-pagination class="el-pagination" @current-change="handleCurrentChange" :current-page="page" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
@@ -171,6 +181,12 @@ export default {
         handleCurrentChange(val) {
             this.page = val;
             this.accessOrderCommonFilter();
+        },
+        settlementMoney(item) {
+
+        },
+        settlementRecord(item) {
+
         }
     },
     destroyed() {}
