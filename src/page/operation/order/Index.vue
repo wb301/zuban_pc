@@ -31,12 +31,12 @@
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
-                        <el-col :span="11">
+                        <el-col :span="12">
                             <el-form-item label="订单编号：" prop="phone">
                                 <el-input v-model.number="form.orderNo" placeholder="请输入订单编号"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="11">
+                        <el-col :span="12">
                             <el-form-item label="购买用户手机号：" prop="phone">
                                 <el-input v-model.number="form.phone" placeholder="请输入购买用户手机号"></el-input>
                             </el-form-item>
@@ -50,28 +50,91 @@
             </div>
             <div>
                 <el-radio-group v-model="orderStatus">
-                    <el-radio-button label="-1">全部</el-radio-button>
-                    <el-radio-button label="0">待付款</el-radio-button>
-                    <el-radio-button label="1">待确认</el-radio-button>
-                    <el-radio-button label="5">进行中</el-radio-button>
-                    <el-radio-button label="10">已完成</el-radio-button>
+                    <el-radio-button label="ALL">全部</el-radio-button>
+                    <el-radio-button label="WaitingPay">待付款</el-radio-button>
+                    <el-radio-button label="WaitingConfirm">待确认</el-radio-button>
+                    <el-radio-button label="Ongoing">进行中</el-radio-button>
+                    <el-radio-button label="End">已完成</el-radio-button>
                 </el-radio-group>
             </div>
             <div class="table">
-                <el-table :data="agentList" border style="width: 100%">
-                    <el-table-column prop="id" align="center" label="编号" min-width="90">
+                <el-table :data="orderList" border style="width: 100%">
+                    <el-table-column type="expand">
+                        <template scope="props">
+                            <el-form label-position="left" inline class="demo-table-expand">
+                                <el-row>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="服务地区:">
+                                            <span>{{ props.row.productList[0].product.region_name }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="订单类型:">
+                                            <span>{{ props.row.order_type==1?"预约服务":"购买联系方式" }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="发布单价:">
+                                            <span>{{ props.row.productList[0].price }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="数量:">
+                                            <span> {{ props.row.productList[0].num }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="订单金额:">
+                                            <span>{{ props.row.total_price}}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="订单状态:">
+                                            <span> {{ props.row.status_name }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="23" :offset="1">
+                                        <el-form-item label="下单时间:">
+                                            <span>{{ props.row.create_time}}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="卖家昵称:">
+                                            <span>{{ props.row.seller.nick_name}}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="卖家手机号:">
+                                            <span> {{ props.row.seller.account }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="买家昵称:">
+                                            <span>{{ props.row.buyers.nick_name}}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="11" :offset="1">
+                                        <el-form-item label="买家手机号:">
+                                            <span> {{ props.row.buyers.account }}</span>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                            </el-form>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="nick_name" align="center" label="名称" min-width="120">
+                    <el-table-column prop="order_no" align="left" label="订单编号" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="account" align="center" label="手机号" min-width="130">
-                    </el-table-column>
-                    <el-table-column prop="manager_type_name" align="center" label="类型" min-width="120">
-                    </el-table-column>
-                    <el-table-column prop="region_name" align="center" label="所属地区" min-width="180">
-                    </el-table-column>
-                    <el-table-column prop="create_time" align="center" label="添加时间" min-width="185">
-                    </el-table-column>
-                    <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
+                    <el-table-column prop="memo" align="left" label="留言信息" min-width="100">
                     </el-table-column>
                 </el-table>
                 <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
@@ -93,7 +156,7 @@ export default {
                 region2: '',
                 region3: ''
             },
-            orderStatus: -1,
+            orderStatus: 'ALL',
             region1List: [],
             region2List: [],
             region3List: [],
@@ -101,6 +164,13 @@ export default {
             total: 0,
             page: 1
 
+        }
+    },
+    watch: {
+        orderStatus: function() {
+            this.orderCommonFilter({
+                status: this.orderStatus
+            });
         }
     },
     mounted() {
