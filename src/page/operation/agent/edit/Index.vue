@@ -2,9 +2,9 @@
     <div>
         <div class="container-body">
             <el-form :model="form" ref="form" label-width="120px">
-                <el-form-item label="代理商帐号" prop="phone">
+                <el-form-item label="代理商帐号" prop="account">
                     <el-col :span="8">
-                        <el-input v-model.number="form.phone" placeholder="请输入代理商手机号"></el-input>
+                        <el-input v-model.number="form.account" placeholder="请输入代理商手机号"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="代理商密码" prop="password">
@@ -39,7 +39,7 @@ export default {
         return {
             form: {
                 id: this.$route.params.pid,
-                phone: '',
+                account: '',
                 password: '',
                 nick_name: '',
                 status: "1"
@@ -63,7 +63,10 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    console.log(response);
+                    this.form.account = response.account
+                    this.form.password = response.password
+                    this.form.nick_name = response.nick_name
+                    this.form.status = response.status
                 }
             };
             AjaxHelper.GetRequest(p_obj);
