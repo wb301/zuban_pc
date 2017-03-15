@@ -74,159 +74,159 @@
     </div>
 </template>
 <script>
-    export default {
-        components: {},
-        data() {
-            return {
-                form: {
-                    phone: '',
-                    region1: '',
-                    region2: '',
-                    region3: ''
-                },
-                region1List: [],
-                region2List: [],
-                region3List: [],
-                agentList: [],
-                total: 0,
-                page: 1
+export default {
+    components: {},
+    data() {
+        return {
+            form: {
+                phone: '',
+                region1: '',
+                region2: '',
+                region3: ''
+            },
+            region1List: [],
+            region2List: [],
+            region3List: [],
+            agentList: [],
+            total: 0,
+            page: 1
 
-            }
-        },
-        mounted() {
-            this.getRegionList();
-            this.getRegionManagerList();
-        },
-        methods: {
-            getRegionList() {
-                var param = {
-                    c: 'Zb',
-                    m: 'Region',
-                    a: 'getRegionList',
-                    fixAll: 1
-                };
-                var p_obj = {
-                    action: '',
-                    param: param,
-                    success: (response) => {
+        }
+    },
+    mounted() {
+        this.getRegionList();
+        this.getRegionManagerList();
+    },
+    methods: {
+        getRegionList() {
+            var param = {
+                c: 'Zb',
+                m: 'Region',
+                a: 'getRegionList',
+                fixAll: 1
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
                     this.region1List = response;
-                this.region2List = response[0].children;
-                this.region3List = response[0].children[0].children;
-                this.form.region1 = response[0].code;
-                this.form.region2 = response[0].children[0].code;
-                this.form.region3 = response[0].children[0].children[0].code;
-            }
+                    this.region2List = response[0].children;
+                    this.region3List = response[0].children[0].children;
+                    this.form.region1 = response[0].code;
+                    this.form.region2 = response[0].children[0].code;
+                    this.form.region3 = response[0].children[0].children[0].code;
+                }
             };
-                AjaxHelper.GetRequest(p_obj);
-            },
-            selectRegion1List() {
-                for (var i = 0; i < this.region1List.length; i++) {
-                    if (this.form.region1 == this.region1List[i].code) {
-                        this.region2List = this.region1List[i].children;
-                        this.region3List = this.region1List[i].children[0].children;
-                        this.form.region2 = this.region1List[i].children[0].code;
-                        this.form.region3 = this.region1List[i].children[0].children[0].code;
-                    }
+            AjaxHelper.GetRequest(p_obj);
+        },
+        selectRegion1List() {
+            for (var i = 0; i < this.region1List.length; i++) {
+                if (this.form.region1 == this.region1List[i].code) {
+                    this.region2List = this.region1List[i].children;
+                    this.region3List = this.region1List[i].children[0].children;
+                    this.form.region2 = this.region1List[i].children[0].code;
+                    this.form.region3 = this.region1List[i].children[0].children[0].code;
                 }
-            },
-            selectRegion2List() {
-                for (var i = 0; i < this.region2List.length; i++) {
-                    if (this.form.region2 == this.region2List[i].code) {
-                        this.region3List = this.region2List[i].children;
-                        this.form.region3 = this.region2List[i].children[0].code;
-                    }
-                }
-            },
-            getRegionManagerList() {
-                var param = {
-                    c: 'Admin',
-                    m: 'User',
-                    a: 'getRegionManagerList',
-                    page: this.page,
-                    row: 10
-                };
-                if (this.form.region3 != "" && this.form.region3 != '1') {
-                    param.region_code = this.form.region3;
-                }
-                var p_obj = {
-                            action: '',
-                            param: param,
-                            success: (response) => {
-                            for (var i = 0; i < response.list.length; i++) {
-                    response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
-                    response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
-                }
-                this.agentList = response.list;
-                this.total = parseInt(response.total);
-            }
-            };
-                AjaxHelper.GetRequest(p_obj);
-            },
-            edit(index, rows) {
-
-            },
-            changeState(index, rows) {
-                var param = {
-                    c: 'Admin',
-                    m: 'User',
-                    a: 'updRegionManagerStatus',
-                    id: rows[index].id,
-                    status: rows[index].status > 0 ? 0 : 1
-                };
-                var p_obj = {
-                            action: '',
-                            param: param,
-                            success: (response) => {
-                            row[index].status = row[index].status == 1 ? 0 : 1;
-                row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
-            }
-            };
-                AjaxHelper.GetRequest(p_obj);
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        if (this.form.region3 != "") {
-                            this.page = 1;
-                            this.getRegionManagerList();
-                        }
-                    } else {
-                        return false;
-            }
-            });
-            },
-            resetForm(formName) {
-                this.region2List = this.region1List[0].children;
-                this.region3List = this.region1List[0].children[0].children;
-                this.$refs[formName].resetFields();
-                this.form.region1 = this.region1List[0].code;
-                this.form.region2 = this.region2List[0].code;
-                this.form.region3 = this.region3List[0].code;
-            },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getRegionManagerList();
             }
         },
-        destroyed() {}
-    }
+        selectRegion2List() {
+            for (var i = 0; i < this.region2List.length; i++) {
+                if (this.form.region2 == this.region2List[i].code) {
+                    this.region3List = this.region2List[i].children;
+                    this.form.region3 = this.region2List[i].children[0].code;
+                }
+            }
+        },
+        getRegionManagerList() {
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'getRegionManagerList',
+                page: this.page,
+                row: 10
+            };
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.region_code = this.form.region3;
+            }
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    for (var i = 0; i < response.list.length; i++) {
+                        response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
+                        response.list[i].manager_type_name = response.list[i].manager_type == 1 ? "平台" : "区域";
+                    }
+                    this.agentList = response.list;
+                    this.total = parseInt(response.total);
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        edit(index, rows) {
+
+        },
+        changeState(index, rows) {
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'updRegionManagerStatus',
+                id: rows[index].id,
+                status: rows[index].status
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    row[index].status = row[index].status == 1 ? 0 : 1;
+                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (this.form.region3 != "") {
+                        this.page = 1;
+                        this.getRegionManagerList();
+                    }
+                } else {
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+            this.region2List = this.region1List[0].children;
+            this.region3List = this.region1List[0].children[0].children;
+            this.$refs[formName].resetFields();
+            this.form.region1 = this.region1List[0].code;
+            this.form.region2 = this.region2List[0].code;
+            this.form.region3 = this.region3List[0].code;
+        },
+        handleCurrentChange(val) {
+            this.page = val;
+            this.getRegionManagerList();
+        }
+    },
+    destroyed() {}
+}
 </script>
 <style lang="less" scoped>
-    .container-body {
-        padding: 15px;
+.container-body {
+    padding: 15px;
     .header {
-    .search {
-        margin-top: 15px;
-    .select {
-        display: block;
-    }
-    }
+        .search {
+            margin-top: 15px;
+            .select {
+                display: block;
+            }
+        }
     }
     .table {
-    .el-pagination {
-        float: right;
-        margin: 5px 20px 0 0;
+        .el-pagination {
+            float: right;
+            margin: 5px 20px 0 0;
+        }
     }
-    }
-    }
+}
 </style>

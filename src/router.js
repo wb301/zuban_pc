@@ -74,13 +74,7 @@ const router = new Router({
             path: '/order',
             component: function(resolve) {
                 require(['./page/operation/order/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/order/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/withdrawal',
             component: function(resolve) {
