@@ -50,13 +50,7 @@ const router = new Router({
             path: '/divided',
             component: function(resolve) {
                 require(['./page/operation/divided/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/divided/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/orderReturn',
             component: function(resolve) {
