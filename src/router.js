@@ -90,6 +90,11 @@ const router = new Router({
                 require(['./page/operation/product/list/Index.vue'], resolve)
             }
         }, {
+            path: '/userinfo',
+            component: function(resolve) {
+                require(['./page/operation/userinfo/list/Index.vue'], resolve)
+            }
+        }, {
             path: '/withdrawal',
             component: function(resolve) {
                 require(['./page/operation/withdrawal/Index.vue'], resolve)

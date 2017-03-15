@@ -42,6 +42,9 @@ export default {
                 title: '代理商管理',
                 path: 'agent'
             }, {
+                title: '用户管理',
+                path: 'userinfo'
+            }, {
                 title: '内容审核',
                 path: 'product'
             }, {
