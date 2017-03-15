@@ -67,7 +67,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next" :total="total">
+                <el-pagination class="el-pagination" @current-change="handleCurrentChange" :current-page="page" :page-size="10" layout="total, prev, pager, next" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -100,7 +100,7 @@ export default {
     methods: {
         getRegionList() {
             var param = {
-                c: 'Zb',
+                c: 'Admin',
                 m: 'Region',
                 a: 'getRegionList',
                 fixAll: 1
@@ -137,7 +137,7 @@ export default {
                 }
             }
         },
-        getRegionManagerList() {
+        getRegionManagerList(p_obj) {
             var param = {
                 c: 'Admin',
                 m: 'User',
@@ -145,8 +145,10 @@ export default {
                 page: this.page,
                 row: 10
             };
-            if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
+            if (p_obj) {
+                for (var key in p_obj) {
+                    param[key] = p_obj[key];
+                }
             }
             var p_obj = {
                 action: '',
@@ -186,10 +188,8 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if (this.form.region3 != "") {
-                        this.page = 1;
-                        this.getRegionManagerList();
-                    }
+                    this.page = 1;
+                    this.accessGetRegionManagerList();
                 } else {
                     return false;
                 }
@@ -203,9 +203,16 @@ export default {
             this.form.region2 = this.region2List[0].code;
             this.form.region3 = this.region3List[0].code;
         },
+        accessGetRegionManagerList() {
+            var param = {};
+            if (this.form.region3 != "" && this.form.region3 != '1') {
+                param.region_code = this.form.region3;
+            }
+            this.getRegionManagerList(param);
+        },
         handleCurrentChange(val) {
             this.page = val;
-            this.getRegionManagerList();
+            this.accessGetRegionManagerList();
         }
     },
     destroyed() {}

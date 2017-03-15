@@ -240,14 +240,14 @@ export default {
             };
             AjaxHelper.GetRequest(p_obj);
         },
-        submitForm(formName) {
+        accessOrderCommonFilter() {
             var param = {};
             if (this.form.region3 != "" && this.form.region3 != '1') {
                 param.sourse = this.form.region3;
             }
             if (this.form.time != "") {
-                param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
-                    param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
+                param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
+                param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
             if (this.form.orderNo != "") {
                 param.orderNo = this.form.orderNo;
@@ -255,10 +255,13 @@ export default {
             if (this.form.phone != "") {
                 param.phone = this.form.phone;
             }
+            this.orderCommonFilter(param);
+        },
+        submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.page = 1;
-                    this.orderCommonFilter(param);
+                    this.accessOrderCommonFilter();
                 } else {
                     return false;
                 }
@@ -274,21 +277,7 @@ export default {
         },
         handleCurrentChange(val) {
             this.page = val;
-            var param = {};
-            if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.sourse = this.form.region3;
-            }
-            if (this.form.time != "") {
-                param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss"),
-                    param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
-            }
-            if (this.form.orderNo != "") {
-                param.orderNo = this.form.orderNo;
-            }
-            if (this.form.phone != "") {
-                param.phone = this.form.phone;
-            }
-            this.orderCommonFilter(param);
+            this.accessOrderCommonFilter();
         }
     },
     destroyed() {}
