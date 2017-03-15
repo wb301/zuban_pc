@@ -93,7 +93,7 @@ export default {
             account: '',
             pass: '',
             name: '',
-            status: -1,
+            status: "0",
             region1: '',
             region2: '',
             region3: '',
