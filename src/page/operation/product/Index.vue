@@ -127,12 +127,12 @@ export default {
                         response.list[i].status_name = response.list[i].status == 1 ? "开启" : "关闭";
                         var type = response.list[i].price_type;
                         var info = "小时";
-                        if(type == 2){
+                        if (type == 2) {
                             info = "天";
-                        }else if(type == 3){
+                        } else if (type == 3) {
                             info = "次";
                         }
-                        response.list[i].priceInfo = response.list[i].price+"元/"+info;
+                        response.list[i].priceInfo = response.list[i].price + "元/" + info;
                     }
                     this.agentList = response.list;
                     this.total = parseInt(response.total);
@@ -142,11 +142,11 @@ export default {
         },
         changeState(index, rows) {
             var status = 0;
-            if(rows[index].status == 0){
+            if (rows[index].status == 0) {
                 status = 1;
             }
             var param = {
-                productInfo:{
+                productInfo: {
                     id: rows[index].id,
                     status: status
                 }

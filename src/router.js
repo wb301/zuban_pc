@@ -39,13 +39,7 @@ const router = new Router({
             path: '/user',
             component: function(resolve) {
                 require(['./page/operation/user/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/user/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/divided',
             component: function(resolve) {
@@ -55,13 +49,7 @@ const router = new Router({
             path: '/orderReturn',
             component: function(resolve) {
                 require(['./page/operation/orderReturn/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/orderReturn/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/moneyHistory',
             component: function(resolve) {
@@ -75,24 +63,18 @@ const router = new Router({
         }, {
             path: '/product',
             component: function(resolve) {
-                require(['./page/operation/product/list/Index.vue'], resolve)
+                require(['./page/operation/product/Index.vue'], resolve)
             }
         }, {
             path: '/userinfo',
             component: function(resolve) {
-                require(['./page/operation/userinfo/list/Index.vue'], resolve)
+                require(['./page/operation/userinfo/Index.vue'], resolve)
             }
         }, {
             path: '/withdrawal',
             component: function(resolve) {
                 require(['./page/operation/withdrawal/Index.vue'], resolve)
-            },
-            children: [{
-                path: '',
-                component: function(resolve) {
-                    require(['./page/operation/withdrawal/list/Index.vue'], resolve)
-                }
-            }]
+            }
         }, {
             path: '/service-type',
             component: function(resolve) {
