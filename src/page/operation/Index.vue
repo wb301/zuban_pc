@@ -32,7 +32,7 @@ export default {
         }, {
             title: '资金管理',
             children: [{
-                title: '收支明细',
+                title: '收支明细-代理商',
                 path: 'moneyHistory'
             },
                 {
@@ -47,28 +47,38 @@ export default {
         }];
         var managerType = NormalHelper.userInfo()["manager_type"];
         if (managerType > 0) {
-            var masterList = [{
-                title: '资金管理',
-                children: [{
-                    title: '提现申请',
-                    path: 'withdrawal'
-                }]
-            }, {
+            var masterList = [ {
                 title: '代理商管理',
                 path: 'agent'
             }, {
-                title: '系统配置',
+                title: '内容审核',
+                path: 'product'
+            }, {
+                title: '配置中心',
                 children: [{
                     title: '服务类型配置',
                     path: 'service-type'
                 }, {
-                    title: '费率配置',
+                    title: '系统配置',
                     path: 'rate'
                 }]
-            }, {
-                title: '内容审核',
-                path: 'product'
+            },{
+                title: '资金管理',
+                children: [{
+                    title: '收支明细-平台',
+                    path: 'moneyHistory'
+                },{
+                    title: '提现申请',
+                    path: 'withdrawal'
+                },{
+                    title: '退款申请',
+                    path: 'returnMon'
+                }]
             }];
+
+
+            // 11.平台收支明细
+            // 12.代理商收支明细
             //只有平台能看到
             menuList = menuList.reduce(function(coll, item) {
                 var list = [];

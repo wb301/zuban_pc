@@ -88,6 +88,11 @@ const router = new Router({
                 require(['./page/operation/order/Index.vue'], resolve)
             }
         }, {
+            path: '/product',
+            component: function(resolve) {
+                require(['./page/operation/product/list/Index.vue'], resolve)
+            }
+        }, {
             path: '/withdrawal',
             component: function(resolve) {
                 require(['./page/operation/withdrawal/Index.vue'], resolve)
