@@ -210,9 +210,6 @@ export default {
         },
         accessGetDividedList() {
             var param = {};
-            if (this.form.region3 != "" && this.form.region3 != '1') {
-                param.region_code = this.form.region3;
-            }
             if (this.form.status > 0) {
                 param.status = this.form.status;
             }
@@ -220,19 +217,14 @@ export default {
                 param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
                 param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
+            if (this.form.admin > 0) {
+                param.admin_code = this.form.admin;
+            }
             this.getDividedList(param);
         },
         submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    if (this.form.region3 != "") {
-                        this.page = 1;
-                        this.accessGetDividedList();
-                    }
-                } else {
-                    return false;
-                }
-            });
+            this.page = 1;
+            this.accessGetDividedList();
         },
         resetForm(formName) {
             this.region2List = this.region1List[0].children;

@@ -44,7 +44,7 @@
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
                             <el-button @click="changeState(scope.$index, List)" size="small">
-                                {{scope.row.status==1?"进行中":"已完成"}}
+                                {{scope.row.status==1?"标记未完成":"标记提现完成"}}
                             </el-button>
                         </template>
                     </el-table-column>
