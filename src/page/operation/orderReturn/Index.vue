@@ -6,39 +6,63 @@
                 </div>
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
+                        <el-col :span="12">
                         <el-form-item label="手机号码" prop="phone">
                             <el-input v-model.number="form.phone"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
                         <el-form-item label="订单编号" prop="order_no">
                             <el-input v-model.number="form.order_no"></el-input>
                         </el-form-item>
-                        <el-form-item label="服务地区">
-                            <el-col :span="8">
-                                <el-form-item prop="region1">
-                                    <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="结算时间" prop="time">
+                                <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="8">
+                            <el-form-item label="交易类型">
+                                <el-form-item prop="status">
+                                    <el-select class="select" v-model="form.status" placeholder="全部">
+                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <el-col :span="8">
-                                <el-form-item prop="region2">
-                                    <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="8">
-                                <el-form-item prop="region3">
-                                    <el-select class="select" v-model="form.region3" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                        <el-form-item label="所属地区">
+                        <el-col :span="8">
+                            <el-form-item prop="region1">
+                                <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item prop="region2">
+                                <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item prop="region3">
+                                <el-select class="select" v-model="form.region3" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('form')">提交</el-button>
                             <el-button @click="resetForm('form')">重置</el-button>
                         </el-form-item>
+                        </el-col>
                     </el-form>
                 </div>
             </div>
@@ -89,8 +113,21 @@ export default {
     mounted() {
         this.getRegionList();
         this.getDividedList();
+        this.getTradeList();
     },
     methods: {
+        getTradeList() {
+            this.tradeList = [{
+                name: "全部",
+                code: 0
+            }, {
+                name: "退款中",
+                code: 11
+            }, {
+                name: "已完成",
+                code: 12
+            }];
+        },
         getRegionList() {
             var param = {
                 c: 'Admin',
