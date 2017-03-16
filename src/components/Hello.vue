@@ -16,8 +16,7 @@ export default {
         }
     },
     mounted() {
-        // this.isManager = this.userInfo.manager_type == 1 ? false : true;
-        this.isManager = true;
+        this.isManager = this.userInfo.manager_type == 1 ? false : true;
         if(this.isManager){
             this.$nextTick(function () {
                 require ('../lib/common/jquery.qrcode.min.js');
