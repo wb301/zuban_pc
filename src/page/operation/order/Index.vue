@@ -41,10 +41,12 @@
                                 <el-input v-model.number="form.phone" placeholder="请输入购买用户手机号"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                            <el-button @click="resetForm('form')">重置</el-button>
-                        </el-form-item>
+                        <el-col :span="24">
+                            <el-form-item>
+                                <el-button type="primary" @click="submitForm('form')">提交</el-button>
+                                <el-button @click="resetForm('form')">重置</el-button>
+                            </el-form-item>
+                        </el-col>
                     </el-form>
                 </div>
             </div>
