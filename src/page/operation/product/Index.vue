@@ -31,15 +31,21 @@
                 <el-table :data="agentList" border style="width: 100%">
                     <el-table-column prop="id" align="center" label="编号" min-width="90">
                     </el-table-column>
-                    <el-table-column prop="image_list" align="center" label="服务图片" min-width="120">
+                    <!-- <el-table-column prop="image_list" align="center" label="服务图片" min-width="120">
+                        <img :src="image_list" class="avatar">
+                    </el-table-column> -->
+                    <el-table-column fixed="left" align="center" label="服务图片" min-width="150">
+                        <template scope="scope">
+                            <img :src="item" style="width: 50px; height: 50px" class="avatar" v-for="(item,index) in scope.row.image_list" />
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="priceInfo" align="center" label="服务类型/价格" min-width="130">
+                    <el-table-column prop="priceInfo" align="center" label="服务类型/价格" min-width="100">
                     </el-table-column>
                     <el-table-column prop="region_name" align="center" label="服务地区" min-width="120">
                     </el-table-column>
-                    <el-table-column prop="product_info" align="center" label="补充意见" min-width="180">
+                    <el-table-column prop="product_info" align="center" label="补充意见" min-width="170">
                     </el-table-column>
-                    <el-table-column prop="userInfo.nick_name" align="center" label="发布人" min-width="185">
+                    <el-table-column prop="userInfo.nick_name" align="center" label="发布人" min-width="175">
                     </el-table-column>
                     <el-table-column prop="update_time" align="center" label="发布时间" min-width="100">
                     </el-table-column>
