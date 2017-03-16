@@ -4,6 +4,23 @@
             <div class="header">
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
+
+                        <el-form-item label="提现类型">
+                            <el-form-item prop="name">
+                                <el-select v-model="type" placeholder="全部">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in typeList"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form-item>
+
+                        <el-form-item label="状态">
+                            <el-form-item prop="name">
+                                <el-select v-model="status" placeholder="全部">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in statusList"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form-item>
+
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('form')">提交</el-button>
                             <el-button @click="resetForm('form')">重置</el-button>
@@ -17,7 +34,7 @@
                     </el-table-column>
                     <el-table-column prop="create_time" align="center" label="申请时间" min-width="160">
                     </el-table-column>
-                    <el-table-column prop="from" align="center" label="提现类型" min-width="100">
+                    <el-table-column prop="from_name" align="center" label="提现类型" min-width="100">
                     </el-table-column>
                     <el-table-column prop="account" align="center" label="提现账号" min-width="200">
                     </el-table-column>
@@ -25,8 +42,6 @@
                     </el-table-column>
                     <el-table-column prop="status_name" align="center" label="状态" min-width="120">
                     </el-table-column>
-                   <!-- <el-table-column prop="nick_name" align="center" label="用户名" min-width="100">
-                    </el-table-column>-->
                     <el-table-column prop="update_time" align="center" label="完成时间" min-width="160">
                     </el-table-column>
                     <el-table-column fixed="right" align="center" label="操作" width="140">
@@ -49,6 +64,28 @@
         data() {
             return {
                 List: [],
+                typeList: [{
+                    name: "全部",
+                    code: 0
+                }, {
+                    name: "银行卡",
+                    code: "YHK"
+                }, {
+                    name: "支付宝",
+                    code: "ZFB"
+                }],
+                statusList: [{
+                    name: "全部",
+                    code: 0
+                }, {
+                    name: "提现成功",
+                    code: 1
+                }, {
+                    name: "提现中",
+                    code: 2
+                }],
+                type: 0,
+                status: 0,
                 total: 0,
                 page: 1
 
@@ -66,15 +103,24 @@
                     page: this.page,
                     row: 10
                 };
-                var p_obj = {
-                            action: '',
-                            param: param,
-                            success: (response) => {
-                            for (var i = 0; i < response.list.length; i++) {
-                       response.list[i].status_name = response.list[i].status == 1 ? "提现成功" : "提现中";
-                    if(response.list[i].from=='YHK'){
-                        response.list[i].account ='收款银行:'+response.list[i].bank_name+'   银行账号：'+response.list[i].account+'    账号姓名：'+response.list[i].user_name;
 
+                if(this.status > 0){
+                    param["status"] = this.status;
+                }
+
+                if(this.type != 0 && this.type.length > 0){
+                    param["from"] = this.type;
+                }
+
+                var p_obj = {
+                    action: '',
+                    param: param,
+                    success: (response) => {
+                    for (var i = 0; i < response.list.length; i++) {
+                        response.list[i].status_name = response.list[i].status == 1 ? "提现成功" : "提现中";
+                        response.list[i].from_name = response.list[i].from == "YHK" ? "银行卡" : "支付宝";
+                        if(response.list[i].from=='YHK'){
+                            response.list[i].account ='收款银行:'+response.list[i].bank_name+'   银行账号：'+response.list[i].account+'    账号姓名：'+response.list[i].user_name;
                     }
                 }
                 this.List = response.list;
@@ -113,10 +159,8 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        if (this.form.region3 != "") {
-                            this.page = 1;
-                            this.getRegionManagerList();
-                        }
+                        this.page = 1;
+                        this.getRegionManagerList();
                     } else {
                         return false;
             }
