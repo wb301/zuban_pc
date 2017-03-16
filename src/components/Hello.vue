@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container-body">
-            <h1>欢迎使用租伴网后台管理系统</h1>
+            <h1>欢迎使用租伴网后台管理系统V1.0</h1>
         </div>
     </div>
 </template>

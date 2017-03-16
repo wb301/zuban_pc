@@ -4,6 +4,7 @@
             <div class="container-body">
                 <div class="wapper-main">
                     <div class="content-wapper">
+                        <h3>欢迎使用租伴网后台管理系统</h3>
                         <el-input v-model="account" placeholder="您的账号"></el-input>
                         <el-input v-model="password" placeholder="您的密码"></el-input>
                         <el-button type="primary" class="login" @click="login()">登录</el-button>
