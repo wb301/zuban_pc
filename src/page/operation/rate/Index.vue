@@ -1,77 +1,127 @@
 <template>
     <div>
         <div class="container-body">
-            <h1>平台手续费配置</h1>
-            <div class="header">平台手续费:{{form.poundage}}%
-                <el-button type="text" @click="dialogFormVisible=true">编辑</el-button>
-            </div>
-            <h1>会员规则配置</h1>
-            <div class="header">
-                <div class="add-btn">
-                    <el-button @click="editMembers(false)">新增等级</el-button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>会员等级</th>
-                            <th>会员价格</th>
-                            <th>会员周期</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item,index) in membersList">
-                            <td align="center">{{item.name}}</td>
-                            <td align="center">{{item.price}}</td>
-                            <td align="center">{{item.month}}月</td>
-                            <td align="center">
-                                <el-button type="text" @click="editMembers(true,index)">编辑</el-button>
-                                <el-button type="text" @click="removeMembers(index)">删除</el-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="table">
+                <el-table :data="systemList" border style="width: 100%">
+                    <el-table-column prop="config_name" align="center" label="配置类型" min-width="120">
+                    </el-table-column>
+                    <el-table-column prop="config_value" align="center" label="配置值" min-width="120">
+                    </el-table-column>
+                    <el-table-column prop="remark" align="center" label="类型介绍" min-width="180">
+                    </el-table-column>
+                    <el-table-column fixed="right" align="center" label="操作" width="140">
+                        <template scope="scope">
+                            <el-button @click="onSubmit(scope.row)" size="small">
+                                修改
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </div>
         </div>
-        <el-dialog title="编辑平台手续费" v-model="dialogFormVisible">
-            <el-form ref="form" :model="form" label-width="130px">
+        <el-dialog title="平台手续费配置" v-model="platform">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
                 <el-form-item label="平台手续费：">
-                    <el-col :span="8">
-                        <el-input v-model.number="form.poundage"></el-input>
-                    </el-col>%
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="updateSysConfigASPLATFORM">确 定</el-button>
+                <el-button @click="platform = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
             </div>
         </el-dialog>
-        <el-dialog :title="membersType>1?'编辑会员等级':'新增会员等级'" v-model="membersDialogFormVisible">
-            <el-form ref="membersForm" :model="membersForm" label-width="130px">
-                <el-form-item label="会员等级名称：">
-                    <el-col :span="12">
-                        <el-input v-model="membersForm.name" placeholder="请输入会员等级名称"></el-input>
+        <el-dialog title="注册地手续费配置" v-model="registered">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="注册地手续费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
                     </el-col>
-                </el-form-item>
-                <el-form-item label="会员等级">
-                    <el-col :span="12">
-                        <el-input v-model.number="membersForm.level" placeholder="请输入会员等级"></el-input>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="会员卡价格：">
-                    <el-col :span="12">
-                        <el-input v-model.number="membersForm.price"></el-input>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="会员周期：">
-                    <el-col :span="12">
-                        <el-input v-model.number="membersForm.month"></el-input>
-                    </el-col>月
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="membersDialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="updateSysConfigMembers">确 定</el-button>
+                <el-button @click="registered = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="消费地手续费配置" v-model="consum">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="消费地手续费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="consum = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="查看手续费配置" v-model="lookPrice">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="查看手续费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="lookPrice = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="银卡手续费配置" v-model="vipLevel1">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="银卡手续费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="vipLevel1 = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="金卡手续费配置" v-model="vipLevel2">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="金卡手续费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="vipLevel2 = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="钻石会员费配置" v-model="vipLevel3">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="钻石会员费：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="vipLevel3 = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="客服电话配置" v-model="cusomerService">
+            <el-form ref="updInfo" :model="updInfo" label-width="130px">
+                <el-form-item label="客服电话：">
+                    <el-col :span="18">
+                        <el-input v-model.number="updInfo.config_value"></el-input>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cusomerService = false">取 消</el-button>
+                <el-button type="primary" @click="updateSysConfig">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -82,19 +132,19 @@ export default {
     components: {},
     data() {
         return {
+            systemList: [],
+            vipList: [],
             membersList: [],
-            form: {
-                poundage: 0
-            },
-            dialogFormVisible: false,
-            membersForm: {
-                name: '',
-                level: '',
-                price: '',
-                month: ''
-            },
-            membersType: 1,
-            membersDialogFormVisible: false
+            updInfo: {},
+            updValue: "",
+            platform: false,
+            registered: false,
+            consum: false,
+            lookPrice: false,
+            vipLevel1: false,
+            vipLevel2: false,
+            vipLevel3: false,
+            cusomerService: false
         }
     },
     created() {
@@ -114,116 +164,101 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
+                    this.systemList = [];
+                    this.vipList = [];
                     for (var i = 0; i < response.length; i++) {
-                        if (response[i].config_key == "AS_PLATFORM") {
-                            this.form.poundage = parseFloat(response[i].config_value) / 1000;
+                        if (response[i].config_key == "AS_PLATFORM" || 
+                            response[i].config_key == "AS_REGISTERED" || 
+                            response[i].config_key == "AS_CONSUM") {
+
+                            var configValue = parseFloat(response[i].config_value) / 1000;
+                        }else if (response[i].config_key == "VIP_LIST") {
+                            this.vipList = JSON.parse(response[i].config_value);
+
+                            for (var j = 0; j < this.vipList.length; j++) {
+                                var vipInfo = {
+                                               "config_key": "VIP_LIST",
+                                               "config_name": this.vipList[j]["name"],
+                                               "level": this.vipList[j]["level"],
+                                               "config_value": this.vipList[j]["price"],
+                                               "month": this.vipList[j]["month"],
+                                               "remark": response[i].remark,
+                                               "vIndex": j
+                                            }
+                                this.systemList.push(vipInfo);
+                            }
+                            continue;
                         }
-                        if (response[i].config_key == "VIP_LIST") {
-                            this.membersList = JSON.parse(response[i].config_value);
-                        }
+                        this.systemList.push(response[i]);
                     }
                 }
             };
             AjaxHelper.GetRequest(p_obj);
         },
-        updateSysConfig(p_obj, callback) {
-            var param = {};
-            if (p_obj) {
-                for (var key in p_obj) {
-                    param[key] = p_obj[key];
-                }
+        updateSysConfig() {
+            var updValue = this.updInfo["config_value"];
+            if(this.updInfo["config_key"] == "VIP_LIST"){
+                this.vipList[this.updInfo["vIndex"]]["price"] = updValue;
+                updValue = JSON.stringify(this.vipList);
             }
+
+            var param = {
+                c: 'Admin',
+                m: 'Sys',
+                a: 'updateSysConfig',
+                key: this.updInfo["config_key"],
+                value: updValue
+            };
+
             var p_obj = {
-                action: '&c=Admin&m=Sys&a=updateSysConfig',
+                action: '',
                 param: param,
                 success: (response) => {
-                    callback(response);
-                }
-            };
-            AjaxHelper.PostRequest(p_obj);
-        },
-        updateSysConfigASPLATFORM() {
-            var param = {
-                key: 'AS_PLATFORM',
-                value: this.form.poundage * 1000
-            };
-            this.updateSysConfig(param, (res) => {
-                this.dialogFormVisible = false;
-                this.$message({
-                    type: 'success',
-                    message: '修改成功!'
-                });
-                this.getSysConfigList();
-            });
-        },
-        removeMembers(p_index) {
-            this.$confirm('删除后无法恢复，确认要删除该条记录？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                var param = {
-                    key: 'VIP_LIST',
-                    value: JSON.stringify(this.membersList.splice(p_index, 1))
-                }
-                this.updateSysConfig(param, (res) => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    this.clearDialog();
                     this.getSysConfigList();
-                })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
-        },
-        editMembers(bool, p_index) {
-            if (bool) {
-                index = p_index;
-                this.membersForm = {
-                    name: this.membersList[p_index].name,
-                    level: this.membersList[p_index].level,
-                    price: this.membersList[p_index].price,
-                    month: this.membersList[p_index].month
-                };
-                this.membersType = 2;
-            }
-            this.membersDialogFormVisible = true;
-        },
-        updateSysConfigMembers() {
-            if (this.membersType > 1) {
-                this.membersList[index].name = this.membersForm.name;
-                this.membersList[index].level = this.membersForm.level;
-                this.membersList[index].price = this.membersForm.price;
-                this.membersList[index].month = this.membersForm.month;
-            } else {
-                this.membersList.push({
-                    "img": "",
-                    "name": this.membersForm.name,
-                    "level": this.membersForm.level,
-                    "price": parseFloat(this.membersForm.price),
-                    "month": this.membersForm.month
-                });
-            }
-            var param = {
-                key: 'VIP_LIST',
-                value: JSON.stringify(this.membersList)
-            }
-            this.updateSysConfig(param, (res) => {
-                this.membersDialogFormVisible = false;
-                var mgs = '新增成功！';
-                if (this.membersType > 1) {
-                    mgs = '修改成功！'
                 }
-                this.$message({
-                    type: 'success',
-                    message: mgs
-                });
-                this.getSysConfigList();
-            });
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        clearDialog() {
+            this.updInfo = {},
+            this.platform = false,
+            this.registered = false,
+            this.consum = false,
+            this.lookPrice = false,
+            this.vipLevel1 = false,
+            this.vipLevel2 = false,
+            this.vipLevel3 = false,
+            this.cusomerService = false
+        },
+        onSubmit(info) {
+            this.updInfo = info;
+            switch(info["config_key"]){
+                case "AS_PLATFORM":
+                    this.platform = true;
+                    break;
+                case "AS_REGISTERED":
+                    this.registered = true;
+                    break;
+                case "AS_CONSUM":
+                    this.consum = true;
+                    break;
+                case "LOOK_PRICE":
+                    this.lookPrice = true;
+                    break;
+                case "VIP_LIST":
+                    if(info["level"] == 1){
+                        this.vipLevel1 = true;
+                    }else if(info["level"] == 2){
+                        this.vipLevel2 = true;
+                    }else if(info["level"] == 3){
+                        this.vipLevel3 = true;
+                    }
+                    break;
+                case "CUSTOMER_SERVICE":
+                    this.cusomerService = true;
+                    break;
+            }
         }
     },
     destroyed() {}
