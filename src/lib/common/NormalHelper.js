@@ -195,7 +195,7 @@ function initBase64QiniuToken(upImage, func) {
             putb64(response, upImage, func);
         },
         fail: (response) => {
-            weui.alert(response.msg)
+            NormalHelper.alert(response.msg)
         }
     };
     AjaxHelper.GetRequest(p_obj);

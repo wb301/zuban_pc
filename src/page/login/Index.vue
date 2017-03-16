@@ -38,12 +38,12 @@ export default {
 
             var mobile = param.account;
             if (!(/^1(3|4|5|7|8)\d{9}$/.test(mobile))) {
-                weui.alert("手机号码有误，请重填");
+                NormalHelper.alert("手机号码有误，请重填");
                 return false;
             };
             var str = /^(\w){6,20}$/;
             if (!str.exec(this.password)) {
-                weui.alert("密码格式错误！");
+                NormalHelper.alert("密码格式错误！");
                 return false;
             }
             var p_obj = {
