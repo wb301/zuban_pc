@@ -53,6 +53,11 @@
                         <el-input v-model="membersForm.name" placeholder="请输入会员等级名称"></el-input>
                     </el-col>
                 </el-form-item>
+                <el-form-item label="会员等级">
+                    <el-col :span="12">
+                        <el-input v-model.number="membersForm.level" placeholder="请输入会员等级"></el-input>
+                    </el-col>
+                </el-form-item>
                 <el-form-item label="会员卡价格：">
                     <el-col :span="12">
                         <el-input v-model.number="membersForm.price"></el-input>
@@ -84,6 +89,7 @@ export default {
             dialogFormVisible: false,
             membersForm: {
                 name: '',
+                level: '',
                 price: '',
                 month: ''
             },
@@ -179,6 +185,7 @@ export default {
                 index = p_index;
                 this.membersForm = {
                     name: this.membersList[p_index].name,
+                    level: this.membersList[p_index].level,
                     price: this.membersList[p_index].price,
                     month: this.membersList[p_index].month
                 };
@@ -189,13 +196,14 @@ export default {
         updateSysConfigMembers() {
             if (this.membersType > 1) {
                 this.membersList[index].name = this.membersForm.name;
+                this.membersList[index].level = this.membersForm.level;
                 this.membersList[index].price = this.membersForm.price;
                 this.membersList[index].month = this.membersForm.month;
             } else {
                 this.membersList.push({
                     "img": "",
                     "name": this.membersForm.name,
-                    "level": 1,
+                    "level": this.membersForm.level,
                     "price": parseFloat(this.membersForm.price),
                     "month": this.membersForm.month
                 });
