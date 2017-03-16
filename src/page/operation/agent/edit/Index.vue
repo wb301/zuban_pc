@@ -146,6 +146,8 @@ export default {
                     this.region3List = this.region1List[i].children[0].children;
                     this.ruleForm2.region2 = this.region1List[i].children[0].code;
                     this.ruleForm2.region3 = this.region1List[i].children[0].children[0].code;
+                    this.ruleForm2.region_name = this.region1List[i].name;
+                    break;
                 }
             }
         },
@@ -154,7 +156,11 @@ export default {
                 if (this.ruleForm2.region2 == this.region2List[i].code) {
                     this.region3List = this.region2List[i].children;
                     this.ruleForm2.region3 = this.region2List[i].children[0].code;
-                    this.ruleForm2.region_name = this.region2List[i].children[0].name;
+
+                    if(this.ruleForm2.region2 != this.ruleForm2.region1){
+                        this.ruleForm2.region_name += "_" + this.region2List[i].name;
+                    }
+                    break;
                 }
             }
         },
@@ -188,6 +194,13 @@ export default {
             if (errorStr) {
                 NormalHelper.alert(this, errorStr, 'error');
                 return false;
+            }
+
+            for (var i = 0; i < this.region3List.length; i++) {
+                if (this.ruleForm2.region3 == this.region3List[i].code) {
+                    this.ruleForm2.region_name += "_" + this.region3List[i].name;
+                    break;
+                }
             }
 
             var param = {
