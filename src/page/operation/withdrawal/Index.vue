@@ -3,8 +3,7 @@
         <div class="container-body">
             <div class="header">
                 <div class="search">
-                    <el-form :model="form" ref="form" label-width="120px">
-
+                    <el-form :model="form" ref="form" inline label-width="120px">
                         <el-form-item label="提现类型">
                             <el-form-item prop="name">
                                 <el-select v-model="type" placeholder="全部">
@@ -12,7 +11,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-form-item>
-
                         <el-form-item label="状态">
                             <el-form-item prop="name">
                                 <el-select v-model="status" placeholder="全部">
@@ -20,7 +18,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-form-item>
-
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('form')">提交</el-button>
                             <el-button @click="resetForm('form')">重置</el-button>
@@ -59,140 +56,140 @@
     </div>
 </template>
 <script>
-    export default {
-        components: {},
-        data() {
-            return {
-                List: [],
-                typeList: [{
-                    name: "全部",
-                    code: 0
-                }, {
-                    name: "银行卡",
-                    code: "YHK"
-                }, {
-                    name: "支付宝",
-                    code: "ZFB"
-                }],
-                statusList: [{
-                    name: "全部",
-                    code: 0
-                }, {
-                    name: "提现成功",
-                    code: 1
-                }, {
-                    name: "提现中",
-                    code: 2
-                }],
-                type: 0,
-                status: 0,
-                total: 0,
-                page: 1
+export default {
+    components: {},
+    data() {
+        return {
+            List: [],
+            typeList: [{
+                name: "全部",
+                code: 0
+            }, {
+                name: "银行卡",
+                code: "YHK"
+            }, {
+                name: "支付宝",
+                code: "ZFB"
+            }],
+            statusList: [{
+                name: "全部",
+                code: 0
+            }, {
+                name: "提现成功",
+                code: 1
+            }, {
+                name: "提现中",
+                code: 2
+            }],
+            type: 0,
+            status: 0,
+            total: 0,
+            page: 1
 
+        }
+    },
+    mounted() {
+        this.getRegionManagerList();
+    },
+    methods: {
+        getRegionManagerList() {
+            var param = {
+                c: 'Admin',
+                m: 'Withdraw',
+                a: 'getUserWithdrawHistoryList',
+                page: this.page,
+                row: 10
+            };
+
+            if (this.status > 0) {
+                param["status"] = this.status;
             }
-        },
-        mounted() {
-            this.getRegionManagerList();
-        },
-        methods: {
-            getRegionManagerList() {
-                var param = {
-                    c: 'Admin',
-                    m: 'Withdraw',
-                    a: 'getUserWithdrawHistoryList',
-                    page: this.page,
-                    row: 10
-                };
 
-                if(this.status > 0){
-                    param["status"] = this.status;
-                }
+            if (this.type != 0 && this.type.length > 0) {
+                param["from"] = this.type;
+            }
 
-                if(this.type != 0 && this.type.length > 0){
-                    param["from"] = this.type;
-                }
-
-                var p_obj = {
-                    action: '',
-                    param: param,
-                    success: (response) => {
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
                     for (var i = 0; i < response.list.length; i++) {
                         response.list[i].status_name = response.list[i].status == 1 ? "提现成功" : "提现中";
                         response.list[i].from_name = response.list[i].from == "YHK" ? "银行卡" : "支付宝";
-                        if(response.list[i].from=='YHK'){
-                            response.list[i].account ='收款银行:'+response.list[i].bank_name+'   银行账号：'+response.list[i].account+'    账号姓名：'+response.list[i].user_name;
+                        if (response.list[i].from == 'YHK') {
+                            response.list[i].account = '收款银行:' + response.list[i].bank_name + '   银行账号：' + response.list[i].account + '    账号姓名：' + response.list[i].user_name;
+                        }
                     }
-                }
-                this.List = response.list;
-                this.total = parseInt(response.total);
-            },
+                    this.List = response.list;
+                    this.total = parseInt(response.total);
+                },
                 fail: (response) => {
                     NormalHelper.alert(this, response, 'error');
                 }
             };
-                AjaxHelper.GetRequest(p_obj);
-            },
-            edit(index, rows) {
-
-            },
-            changeState(index, rows) {
-                var param = {
-                    c: 'Admin',
-                    m: 'Withdraw',
-                    a: 'updWithdrawStatus',
-                    id: rows[index].id,
-                    status: rows[index].status
-                };
-                var p_obj = {
-                            action: '',
-                            param: param,
-                            success: (response) => {
-                            row[index].status = row[index].status == 1 ? 0 : 1;
-                row[index].status_name = row[index].status == 1 ? "提现成功" : "提现中";
-            },
-                fail: (response) => {
-                    NormalHelper.alert(this, response, 'error');
-                }
-            };
-                AjaxHelper.GetRequest(p_obj);
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.page = 1;
-                        this.getRegionManagerList();
-                    } else {
-                        return false;
-            }
-            });
-            },
-            resetForm(formName) {
-
-            },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getRegionManagerList();
-            }
+            AjaxHelper.GetRequest(p_obj);
         },
-        destroyed() {}
-    }
+        edit(index, rows) {
+
+        },
+        changeState(index, rows) {
+            var param = {
+                c: 'Admin',
+                m: 'Withdraw',
+                a: 'updWithdrawStatus',
+                id: rows[index].id,
+                status: rows[index].status
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    row[index].status = row[index].status == 1 ? 0 : 1;
+                    row[index].status_name = row[index].status == 1 ? "提现成功" : "提现中";
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.page = 1;
+                    this.getRegionManagerList();
+                } else {
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+
+        },
+        handleCurrentChange(val) {
+            this.page = val;
+            this.getRegionManagerList();
+        }
+    },
+    destroyed() {}
+}
 </script>
 <style lang="less" scoped>
-    .container-body {
-        padding: 15px;
+.container-body {
+    padding: 15px;
     .header {
-    .search {
-        margin-top: 15px;
-    .select {
-        display: block;
-    }
-    }
+        .search {
+            margin-top: 15px;
+            .select {
+                display: block;
+            }
+        }
     }
     .table {
-    .el-pagination {
-        float: right;
-        margin: 5px 20px 0 0;
+        .el-pagination {
+            float: right;
+            margin: 5px 20px 0 0;
+        }
     }
-    }
-    }
+}
 </style>
