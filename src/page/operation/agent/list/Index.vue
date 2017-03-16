@@ -83,7 +83,7 @@
                     <el-input v-model.number="money" placeholder="请输入本次结算金额"></el-input>
                 </el-form-item>
                 <el-form-item label="说明:">
-                    <el-input v-model.number="instructions" placeholder="请输入本次结算金额"></el-input>
+                    <el-input v-model.number="instructions" placeholder="可输入转账流水号或说明事项"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
