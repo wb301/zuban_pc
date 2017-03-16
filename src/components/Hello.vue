@@ -12,11 +12,16 @@ export default {
     data() {
         return {
             userInfo: NormalHelper.userInfo(),
-            isManager: false
+            isManager: false,
+            regionInfo: {}
         }
     },
     mounted() {
         this.isManager = this.userInfo.manager_type == 1 ? false : true;
+        this.regionInfo = {
+            "code": this.userInfo.region_code,
+            "name": this.userInfo.region_name
+        }
         if(this.isManager){
             this.$nextTick(function () {
                 require ('../lib/common/jquery.qrcode.min.js');
@@ -27,7 +32,7 @@ export default {
     methods: {
         qrcode() {
             $("#qrCode").qrcode({
-                text: "https://weixin.zuban8.com/zuban_web/console/#/registered?region="+JSON.stringify([this.userInfo["region_code"],this.userInfo["region_name"]]),
+                text: "https://weixin.zuban8.com/zuban_web/console/#/registered?region="+JSON.stringify(this.regionInfo),
                 width:200,
                 height:200
             })
