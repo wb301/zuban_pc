@@ -62,9 +62,6 @@ export default {
                     title: '收支明细-平台',
                     path: 'moneyHistory'
                 }, {
-                    title: '代理商结算',
-                    path: 'agent-settlement'
-                }, {
                     title: '提现申请',
                     path: 'withdrawal'
                 }, {

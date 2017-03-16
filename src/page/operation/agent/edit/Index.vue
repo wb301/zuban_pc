@@ -13,7 +13,6 @@
                         <el-form-item label="代理商姓名:" prop="name">
                             <el-input v-model.number="ruleForm2.name"></el-input>
                         </el-form-item>
-
                         <el-form-item label="代理商地区:">
                             <el-col :span="8">
                                 <el-form-item prop="region1">
@@ -37,20 +36,17 @@
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
-
                         <el-form-item label="代理商状态:" prop="status">
                             <el-radio-group v-model="ruleForm2.status">
                                 <el-radio label="0">开启</el-radio>
                                 <el-radio label="1">关闭</el-radio>
                             </el-radio-group>
                         </el-form-item>
-
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -60,60 +56,63 @@ export default {
     components: {},
     data() {
         var checkName = (rule, value, callback) => {
-        if (!value) {
-            this.isCheck = false;
-            return callback(new Error('姓名不能为空'));
-        }else{
-            this.isCheck = true;
-            callback();
-        }
-      };
-      var validateAccount = (rule, value, callback) => {
-        if (value === '') {
-            this.isCheck = false;
-            callback(new Error('请输入账号'));
-        } else {
-            this.isCheck = true;
-            callback();
-        }
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-            this.isCheck = false;
-            callback(new Error('请输入密码'));
-        } else {
-            this.isCheck = true;
-            callback();
-        }
-      };
-      return {
-        isCheck: false,
-        ruleForm2: {
-            id: 0,
-            account: '',
-            pass: '',
-            name: '',
-            status: "0",
-            region1: '',
-            region2: '',
-            region3: '',
-            region_name: ''
-        },
-        region1List: [],
-        region2List: [],
-        region3List: [],
-        rules2: {
-            account: [
-                { validator: validateAccount, trigger: 'blur' }
-            ],
-            pass: [
-                { validator: validatePass, trigger: 'blur' }
-            ],
-            name: [
-                { validator: checkName, trigger: 'blur' }
-            ]
-        }
-      };
+            if (!value) {
+                this.isCheck = false;
+                return callback(new Error('姓名不能为空'));
+            } else {
+                this.isCheck = true;
+                callback();
+            }
+        };
+        var validateAccount = (rule, value, callback) => {
+            if (value === '') {
+                this.isCheck = false;
+                callback(new Error('请输入账号'));
+            } else {
+                this.isCheck = true;
+                callback();
+            }
+        };
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                this.isCheck = false;
+                callback(new Error('请输入密码'));
+            } else {
+                this.isCheck = true;
+                callback();
+            }
+        };
+        return {
+            isCheck: false,
+            ruleForm2: {
+                id: 0,
+                account: '',
+                pass: '',
+                name: '',
+                status: "0",
+                region1: '',
+                region2: '',
+                region3: '',
+                region_name: ''
+            },
+            region1List: [],
+            region2List: [],
+            region3List: [],
+            rules2: {
+                account: [{
+                    validator: validateAccount,
+                    trigger: 'blur'
+                }],
+                pass: [{
+                    validator: validatePass,
+                    trigger: 'blur'
+                }],
+                name: [{
+                    validator: checkName,
+                    trigger: 'blur'
+                }]
+            }
+        };
     },
     mounted() {
         this.getRegionList();
@@ -121,7 +120,7 @@ export default {
     methods: {
         getRegionList() {
             var param = {
-                c: 'Zb',
+                c: 'Admin',
                 m: 'Region',
                 a: 'getRegionList',
                 fixAll: 1
@@ -162,31 +161,31 @@ export default {
         submitForm(formName) {
 
             var errorStr = null;
-            if(this.isCheck == false){
+            if (this.isCheck == false) {
                 errorStr = "请先填写正确！";
             }
 
-            if(this.ruleForm2.account === ''){
+            if (this.ruleForm2.account === '') {
                 errorStr = "请先填写代理商账号！";
             }
 
-            if(this.ruleForm2.pass == ''){
+            if (this.ruleForm2.pass == '') {
                 errorStr = "请先填写代理商密码！";
             }
 
-            if(this.ruleForm2.name == ''){
+            if (this.ruleForm2.name == '') {
                 errorStr = "请先填写代理商姓名！";
             }
 
-            if(this.ruleForm2.region2 == this.ruleForm2.region3){
+            if (this.ruleForm2.region2 == this.ruleForm2.region3) {
                 errorStr = "请先选择代理商地区！";
             }
 
-            if(this.ruleForm2.status == -1){
+            if (this.ruleForm2.status == -1) {
                 errorStr = "请先选择代理商状态！";
             }
 
-            if(errorStr){
+            if (errorStr) {
                 NormalHelper.alert(this, errorStr, 'error');
                 return false;
             }

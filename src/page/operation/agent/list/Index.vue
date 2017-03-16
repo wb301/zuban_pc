@@ -61,6 +61,9 @@
                             <el-button @click="changeState(scope.$index, agentList)" size="small">
                                 {{scope.row.status==1?"关闭":"开启"}}
                             </el-button>
+                            <el-button @click="settlement(scope.row.admin_code)" size="small">
+                                结算
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -68,6 +71,26 @@
                 </el-pagination>
             </div>
         </div>
+        <el-dialog title="代理商结算" v-model="dialogFormVisible">
+            <el-form ref="settlementForm" :model="settlementForm" label-width="130px">
+                <el-form-item label="代理商所属区域：">
+                    {{settlementForm.region_name}}
+                </el-form-item>
+                <el-form-item label="待结算金额：">
+                    {{settlementForm.staymoney}}
+                </el-form-item>
+                <el-form-item label="本次结算金额：">
+                    <el-input v-model.number="money" placeholder="请输入本次结算金额"></el-input>
+                </el-form-item>
+                <el-form-item label="说明:">
+                    <el-input v-model.number="instructions" placeholder="请输入本次结算金额"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="settlementMoney">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -86,8 +109,14 @@ export default {
             region3List: [],
             agentList: [],
             total: 0,
-            page: 1
-
+            page: 1,
+            dialogFormVisible: false,
+            settlementForm: {
+                region_name: '',
+                staymoney: '',
+                money: '',
+                instructions: ''
+            }
         }
     },
     mounted() {
@@ -97,7 +126,7 @@ export default {
     methods: {
         getRegionList() {
             var param = {
-                c: 'Zb',
+                c: 'Admin',
                 m: 'Region',
                 a: 'getRegionList',
                 fixAll: 1
@@ -205,6 +234,27 @@ export default {
         handleCurrentChange(val) {
             this.page = val;
             this.getRegionManagerList();
+        },
+        settlement(item) {
+            var param = {
+                c: 'Admin',
+                m: 'MoneyHistory',
+                a: 'getverification',
+                bossCode: item
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                    this.settlementForm.region_name = response[0].region_name;
+                    this.settlementForm.staymoney = response[0].lastprice;
+                    this.dialogFormVisible = true;
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        settlementMoney() {
+
         }
     },
     destroyed() {}
