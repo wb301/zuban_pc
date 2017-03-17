@@ -203,33 +203,30 @@ export default {
             }
 
             var param = {
-                c: 'Admin',
-                m: 'Sys',
-                a: 'updateSysConfig',
                 key: this.updInfo["config_key"],
                 value: updValue
             };
 
             var p_obj = {
-                action: '',
+                action: '&c=Admin&m=Sys&a=updateSysConfig',
                 param: param,
                 success: (response) => {
                     this.clearDialog();
                     this.getSysConfigList();
                 }
             };
-            AjaxHelper.GetRequest(p_obj);
+            AjaxHelper.PostRequest(p_obj);
         },
         clearDialog() {
-            this.updInfo = {},
-            this.platform = false,
-            this.registered = false,
-            this.consum = false,
-            this.lookPrice = false,
-            this.vipLevel1 = false,
-            this.vipLevel2 = false,
-            this.vipLevel3 = false,
-            this.cusomerService = false
+            this.updInfo = {};
+            this.platform = false;
+            this.registered = false;
+            this.consum = false;
+            this.lookPrice = false;
+            this.vipLevel1 = false;
+            this.vipLevel2 = false;
+            this.vipLevel3 = false;
+            this.cusomerService = false;
         },
         onSubmit(info) {
             this.updInfo = info;
