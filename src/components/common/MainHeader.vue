@@ -8,6 +8,7 @@
                   </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item disabled>{{userInfo.account}}</el-dropdown-item>
+                    <el-dropdown-item disabled>{{userInfo.region_name}}</el-dropdown-item>
                     <el-dropdown-item command="outLogin">注销</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -24,7 +25,7 @@ export default {
     },
     mounted() {
         this.userInfo = NormalHelper.userInfo();
-        SaveDataHelper.setLocalStorage("a","1");
+        this.userInfo.region_name = this.userInfo.region_name.split("_").join("-");
     },
     methods: {
         outLogin() {
