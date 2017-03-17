@@ -32,16 +32,14 @@
                         </el-col>
                     </el-form>
                 </div>
-                <div style="float:left;">
-                    <div class="line">
-                        <b style="font-size: 20px" class="line">平台交易金额: {{maxPrice}}元</b>
-                    </div>
-                    <div class="line" style="margin-top: 10px">
-                        <b style="font-size: 20px;">平台累计抽成金额: {{maxPercentagePrice}}元</b>
-                        <b style="font-size: 20px;padding-left: 20px">平台累计会员卡收益: {{maxVipPrice}}元</b>
-                        <b style="font-size: 20px;padding-left: 20px">代理商累计抽成金额: {{regionPercentagePrice}}元</b>
-                    </div>
-                </div>
+            </div>
+            <div class="table" style="margin-top: 10px">
+                <el-table :data="priceList" border style="width: 100%">
+                    <el-table-column prop="name" align="center" label="类型" min-width="90">
+                    </el-table-column>
+                    <el-table-column prop="mingxi" align="center" label="明细" min-width="130">
+                    </el-table-column>
+                </el-table>
             </div>
             <div class="table" style="margin-top: 10px">
                 <el-table :data="moneyHistoryList" border style="width: 100%">
@@ -72,12 +70,9 @@ export default {
             },
             tradeList: [],
             moneyHistoryList: [],
+            priceList: [],
             page: 1,
-            total: 0,
-            maxPrice: 0,
-            maxPercentagePrice: 0,
-            maxVipPrice: 0,
-            regionPercentagePrice: 0
+            total: 0
         }
     },
     mounted() {
@@ -109,10 +104,7 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    this.maxPrice = response.maxPrice;
-                    this.maxPercentagePrice = response.maxPercentagePrice;
-                    this.maxVipPrice = response.maxVipPrice;
-                    this.regionPercentagePrice = response.regionPercentagePrice;
+                    this.priceList = response;
                 },
                 fail: (response) => {
                     NormalHelper.alert(this, response, 'error');
