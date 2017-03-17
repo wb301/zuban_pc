@@ -1,6 +1,6 @@
 <template>
     <header class="main-header">
-        <div class="title">租伴网</div>
+        <div class="title">租伴网后台</div>
         <div class="right">
             <el-dropdown @command="outLogin">
                 <span class="el-dropdown-link">
@@ -25,7 +25,7 @@ export default {
     },
     mounted() {
         this.userInfo = NormalHelper.userInfo();
-        this.userInfo.region_name = this.userInfo.region_name.split("_").join("-");
+        this.userInfo.region_name = this.userInfo.region_name;
     },
     methods: {
         outLogin() {
