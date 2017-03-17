@@ -38,8 +38,8 @@
                         </el-form-item>
                         <el-form-item label="代理商状态:" prop="status">
                             <el-radio-group v-model="ruleForm2.status">
-                                <el-radio label="0">开启</el-radio>
-                                <el-radio label="1">关闭</el-radio>
+                                <el-radio label="1">开启</el-radio>
+                                <el-radio label="0">关闭</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item>
@@ -89,7 +89,7 @@ export default {
                 account: '',
                 pass: '',
                 name: '',
-                status: "0",
+                status: "1",
                 region1: '',
                 region2: '',
                 region3: '',
