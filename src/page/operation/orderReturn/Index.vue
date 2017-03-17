@@ -216,8 +216,8 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    row[index].status = row[index].status == 12;
-                    row[index].status_name = row[index].status == 12 ? "退款已完成" : "申请退款中";
+                    rows[index].status = rows[index].status == 12;
+                    rows[index].status_name = rows[index].status == 12 ? "退款已完成" : "申请退款中";
                     this.orderReturnFilter();
                 }
             };
