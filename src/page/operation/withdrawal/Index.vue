@@ -144,8 +144,9 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    row[index].status = row[index].status == 1 ? 0 : 1;
-                    row[index].status_name = row[index].status == 1 ? "提现成功" : "提现中";
+                        rows[index].status = rows[index].status == 1 ? 0 : 1;
+            rows[index].status_name = rows[index].status == 1 ? "提现成功" : "提现中";
+            this.getRegionManagerList();
                 },
                 fail: (response) => {
                     NormalHelper.alert(this, response, 'error');

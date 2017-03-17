@@ -205,8 +205,8 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                    row[index].status = row[index].status == 1 ? 0 : 1;
-                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
+                        rows[index].status = rows[index].status == 1 ? 0 : 1;
+            rows[index].status_name = rows[index].status == 1 ? "开启" : "关闭";
                 }
             };
             AjaxHelper.GetRequest(p_obj);

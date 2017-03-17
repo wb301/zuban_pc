@@ -218,6 +218,7 @@ export default {
                 success: (response) => {
                     row[index].status = row[index].status == 12;
                     row[index].status_name = row[index].status == 12 ? "退款已完成" : "申请退款中";
+                    this.orderReturnFilter();
                 }
             };
             AjaxHelper.GetRequest(p_obj);
