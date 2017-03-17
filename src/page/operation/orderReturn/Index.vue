@@ -74,7 +74,7 @@
                     </el-table-column>
                     <el-table-column prop="category_name" align="center" label="服务类型" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="status" align="center" label="状态" min-width="80">
+                    <el-table-column prop="status_name" align="center" label="状态" min-width="80">
                     </el-table-column>
                     <el-table-column prop="receiver" align="center" label="用户姓名" min-width="80">
                     </el-table-column>
@@ -85,7 +85,7 @@
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
                             <el-button @click="changeState(scope.$index, List)" size="small">
-                                {{scope.row.status==12?"标记未完成":"标记已完成"}}
+                                {{scope.row.status==12?"退款已完成":"标记已完成"}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -196,30 +196,27 @@ export default {
                 param: param,
                 success: (response) => {
                     for (var i = 0; i < response.list.length; i++) {
-                        response.list[i].status = response.list[i].status == 11 ? "申请退款中" : "退款已完成";
+                        response.list[i].status_name = response.list[i].status == 11 ? "申请退款中" : "退款已完成";
                          }
                     this.List = response.list;
                     this.total = parseInt(response.total);
             }}
             AjaxHelper.GetRequest(p_obj);
         },
-        edit(index, rows) {
-
-        },
         changeState(index, rows) {
             var param = {
                 c: 'Admin',
                 m: 'Order',
-                a: '',
+                a: 'confirmReturn',
                 id: rows[index].id,
-                status: rows[index].status > 0 ? 0 : 1
+                orderNo: rows[index].order_no
             };
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                    row[index].status = row[index].status == 1 ? 0 : 1;
-                    row[index].status_name = row[index].status == 1 ? "开启" : "关闭";
+                    row[index].status = row[index].status == 12;
+                    row[index].status_name = row[index].status == 12 ? "退款已完成" : "申请退款中";
                 }
             };
             AjaxHelper.GetRequest(p_obj);
@@ -230,12 +227,9 @@ export default {
             if (this.form.status > 0) {
                 param.status = this.form.status;
             }
-            if (this.form.time != "") {
+           if (this.form.time != "") {
                 param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
                 param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
-            }
-            if (this.form.phone > 0) {
-                param.phone = this.form.phone;
             }
             if (this.form.phone > 0) {
                 param.phone = this.form.phone;
@@ -243,6 +237,7 @@ export default {
             if (this.form.order_no > 0) {
                 param.orderNo = this.form.orderNo;
             }
+            console.log(param);
             this.orderReturnFilter(param);
         },
         submitForm(formName) {
