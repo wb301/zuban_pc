@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="130px">
-                        <el-form-item label="服务地区">
+                        <el-form-item label="服务地区" v-if="userInfo.manager_type>0">
                             <el-col :span="8">
                                 <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
                                     <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
@@ -160,7 +160,8 @@ export default {
             region3List: [],
             orderList: [],
             total: 0,
-            page: 1
+            page: 1,
+            userInfo:NormalHelper.userInfo()
 
         }
     },

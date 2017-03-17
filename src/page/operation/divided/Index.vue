@@ -10,7 +10,7 @@
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="12" v-if="userInfo.manager_type>0">
                             <el-form-item label="所属代理商">
                                 <el-form-item prop="admin">
                                     <el-select class="select" v-model="form.admin" placeholder="全部">
@@ -104,6 +104,7 @@ export default {
             page: 1,
             report: {},
             RegionManagerList: {},
+            userInfo:NormalHelper.userInfo()
 
 
         }
