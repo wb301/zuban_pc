@@ -44,7 +44,7 @@
                     <el-table-column fixed="right" align="center" label="操作" width="140">
                         <template scope="scope">
                             <el-button @click="changeState(scope.$index, List)" size="small">
-                                {{scope.row.status==1?"标记未完成":"标记提现完成"}}
+                                {{scope.row.status==1?"提现已完成":"标记提现完成"}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -144,8 +144,7 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                        rows[index].status = rows[index].status == 1 ? 0 : 1;
-                        rows[index].status_name = rows[index].status == 1 ? "提现成功" : "提现中";
+                    this.getRegionManagerList();
                 },
                 fail: (response) => {
                     NormalHelper.alert(this, response, 'error');

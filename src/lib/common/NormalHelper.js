@@ -39,7 +39,10 @@ NormalHelper.alert = function(_self, p_msg, type = 'info') {
             });
             break;
         case 'error':
-            _self.$message.error(p_msg);
+             _self.$message({
+                message: p_msg.msg,
+                type: type
+            });
             break;
     }
 };
