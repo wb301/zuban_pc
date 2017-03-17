@@ -22,7 +22,7 @@
                             </el-col>
                         </el-form-item>
                         <el-col :span="12">
-                            <el-form-item label="订单编号：" prop="phone">
+                            <el-form-item label="订单编号：" prop="orderNo">
                                 <el-input v-model.number="form.orderNo" placeholder="请输入订单编号"></el-input>
                             </el-form-item>
                         </el-col>
@@ -267,9 +267,9 @@ export default {
             });
         },
         resetForm(formName) {
+            this.$refs[formName].resetFields();
             this.region2List = this.region1List[0].children;
             this.region3List = this.region1List[0].children[0].children;
-            this.$refs[formName].resetFields();
             this.form.region1 = this.region1List[0].code;
             this.form.region2 = this.region2List[0].code;
             this.form.region3 = this.region3List[0].code;

@@ -12,11 +12,13 @@
                         </el-col>
                         <el-col :span="12" v-if="userInfo.manager_type>0">
                             <el-form-item label="所属代理商">
-                                <el-form-item prop="admin">
-                                    <el-select class="select" v-model="form.admin" placeholder="全部">
+                                <el-form-item prop="admin_code">
+                                    <el-select class="select" v-model="form.admin_code" placeholder="全部">
                                         <el-option :label="item.nick_name" :value="item.admin_code" v-for="(item,index) in RegionManagerList"></el-option>
                                     </el-select>
                                 </el-form-item>
+                            </el-form-item>
+                        </el-col>
                                 <!--<el-col :span="4">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
@@ -38,8 +40,6 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>-->
-                            </el-form-item>
-                        </el-col>
                         <el-col :span="12">
                             <el-form-item label="交易类型">
                                 <el-form-item prop="status">
@@ -92,6 +92,7 @@ export default {
             form: {
                 time: '',
                 status: 0,
+                admin_code:'',
                 region1: '',
                 region2: '',
                 region3: ''
@@ -217,8 +218,8 @@ export default {
                 param.startTime = new Date(this.form.time[0]).Format("yyyy-MM-dd hh:mm:ss");
                 param.endTime = new Date(this.form.time[1]).Format("yyyy-MM-dd hh:mm:ss").replace('00:00:00', '23:59:59');
             }
-            if (this.form.admin > 0) {
-                param.admin_code = this.form.admin;
+            if (this.form.admin_code != "") {
+                param.admin_code = this.form.admin_code;
             }
             this.getDividedList(param);
         },
@@ -227,12 +228,7 @@ export default {
             this.accessGetDividedList();
         },
         resetForm(formName) {
-            this.region2List = this.region1List[0].children;
-            this.region3List = this.region1List[0].children[0].children;
             this.$refs[formName].resetFields();
-            this.form.region1 = this.region1List[0].code;
-            this.form.region2 = this.region2List[0].code;
-            this.form.region3 = this.region3List[0].code;
         },
         handleCurrentChange(val) {
             this.page = val;
