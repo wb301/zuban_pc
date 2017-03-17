@@ -103,6 +103,7 @@ export default {
     data() {
         return {
             form: {
+                time: '',
                 phone: '',
                 region1: '',
                 region2: '',

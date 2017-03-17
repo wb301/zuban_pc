@@ -164,7 +164,7 @@ export default {
             });
         },
         resetForm(formName) {
-
+            this.$refs[formName].resetFields();
         },
         handleCurrentChange(val) {
             this.page = val;
