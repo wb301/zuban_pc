@@ -31,12 +31,10 @@
                 <el-table :data="agentList" border style="width: 100%">
                     <el-table-column prop="id" align="center" label="编号" min-width="90">
                     </el-table-column>
-                    <!-- <el-table-column prop="image_list" align="center" label="服务图片" min-width="120">
-                        <img :src="image_list" class="avatar">
-                    </el-table-column> -->
                     <el-table-column fixed="left" align="center" label="服务图片" min-width="150">
                         <template scope="scope">
-                            <img :src="item" style="width: 50px; height: 50px" class="avatar" v-for="(item,index) in scope.row.image_list" />
+                            <img :src="scope.row.image_list[0]" style="width: 50px; height: 50px;margin-top: 5px;" class="avatar" />
+                            <el-button type="text" @click="lookPic(scope.$index)">点击查看全部图片</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column prop="priceInfo" align="center" label="服务类型/价格" min-width="100">
@@ -63,6 +61,13 @@
                 </el-pagination>
             </div>
         </div>
+        <el-dialog v-model="dialogFormVisible" size="large">
+            <el-carousel :interval="4000" type="card">
+                <el-carousel-item class="text-align" v-for="(item,index) in imgList">
+                    <img :src="item">
+                </el-carousel-item>
+            </el-carousel>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -78,7 +83,9 @@ export default {
             cate2List: [],
             agentList: [],
             total: 0,
-            page: 1
+            page: 1,
+            dialogFormVisible: false,
+            imgList: []
 
         }
     },
@@ -188,6 +195,10 @@ export default {
         handleCurrentChange(val) {
             this.page = val;
             this.getShowProductList();
+        },
+        lookPic(p_index) {
+            this.imgList = this.agentList[p_index].image_list;
+            this.dialogFormVisible = true;
         }
     },
     destroyed() {}
@@ -210,5 +221,8 @@ export default {
             margin: 5px 20px 0 0;
         }
     }
+}
+.text-align{
+    text-align: center;
 }
 </style>
