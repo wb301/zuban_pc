@@ -4,23 +4,23 @@
             <div class="header">
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
-                    <el-col :span="12">
-                        <el-form-item label="注册手机号" prop="phone">
-                            <el-input v-model.number="form.phone" placeholder="请输入注册手机号"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="用户昵称" prop="name">
-                            <el-input v-model.number="form.name" placeholder="请输入用户昵称"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                            <el-button @click="resetForm('form')">重置</el-button>
-                        </el-form-item>
-                    </el-col>
-                </el-form>
+                        <el-col :span="12">
+                            <el-form-item label="注册手机号" prop="phone">
+                                <el-input v-model.number="form.phone" placeholder="请输入注册手机号"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="用户昵称" prop="name">
+                                <el-input v-model.number="form.name" placeholder="请输入用户昵称"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item>
+                                <el-button type="primary" @click="submitForm('form')">提交</el-button>
+                                <el-button @click="resetForm('form')">重置</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-form>
                 </div>
             </div>
             <div class="table">

@@ -18,15 +18,15 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="结算时间" prop="time">
-                                <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
+                                <el-date-picker v-model="form.time" style="width:100%;" type="daterange" placeholder="选择日期范围">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
 
-                        <el-col :span="8">
+                        <el-col :span="12">
                             <el-form-item label="交易类型">
                                 <el-form-item prop="status">
-                                    <el-select class="select" v-model="form.status" placeholder="全部">
+                                    <el-select class="select" style="width:100%;" v-model="form.status" placeholder="全部">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
                                     </el-select>
                                 </el-form-item>

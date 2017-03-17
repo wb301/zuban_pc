@@ -4,13 +4,15 @@
             <div class="header">
                 <div>
                     <el-form ref="form" :model="form" label-width="80px">
-                        <el-form-item label="订单编号" prop="orderNo">
-                            <el-input v-model="form.orderNo"></el-input>
-                        </el-form-item>
+                        <el-col :span="12">
+                            <el-form-item label="订单编号" prop="orderNo">
+                                <el-input v-model="form.orderNo"></el-input>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="12">
                             <el-form-item label="交易类型">
                                 <el-form-item prop="status">
-                                    <el-select v-model="form.status" placeholder="全部">
+                                    <el-select v-model="form.status" style="width:100%" placeholder="全部">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
                                     </el-select>
                                 </el-form-item>
@@ -18,7 +20,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="交易时间" prop="time">
-                                <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
+                                <el-date-picker v-model="form.time" type="daterange" style="width:100%" placeholder="选择日期范围">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -30,7 +32,7 @@
                         </el-col>
                     </el-form>
                 </div>
-                <div>
+                <div style="float:left;">
                     <div class="line">
                         <b style="font-size: 20px" class="line">平台交易金额: {{maxPrice}}元</b>
                     </div>

@@ -4,31 +4,21 @@
             <div class="header">
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="130px">
-                        <el-form-item label="下单时间：" prop="time">
-                            <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
-                            </el-date-picker>
-                        </el-form-item>
                         <el-form-item label="服务地区">
                             <el-col :span="8">
-                                <el-form-item>
-                                    <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
+                                </el-select>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item>
-                                    <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
+                                </el-select>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item>
-                                    <el-select class="select" v-model="form.region3" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region3" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
+                                </el-select>
                             </el-col>
                         </el-form-item>
                         <el-col :span="12">
@@ -41,6 +31,12 @@
                                 <el-input v-model.number="form.phone" placeholder="请输入购买用户手机号"></el-input>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="下单时间：" prop="time">
+                                <el-date-picker v-model="form.time" style="width:100%;" type="daterange" placeholder="选择日期范围">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="24">
                             <el-form-item>
                                 <el-button type="primary" @click="submitForm('form')">提交</el-button>
@@ -50,7 +46,7 @@
                     </el-form>
                 </div>
             </div>
-            <div>
+            <div style="float:left;padding-bottom: 10px;">
                 <el-radio-group v-model="orderStatus">
                     <el-radio-button label="ALL">全部</el-radio-button>
                     <el-radio-button label="WaitingPay">待付款</el-radio-button>
@@ -297,7 +293,6 @@ export default {
         }
     }
     .table {
-        margin-top: 10px;
         .el-pagination {
             float: right;
             margin: 5px 20px 0 0;

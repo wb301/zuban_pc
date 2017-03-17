@@ -5,19 +5,19 @@
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
                         <el-col :span="12">
-                        <el-form-item label="结算时间" prop="time">
-                            <el-date-picker v-model="form.time" type="daterange" placeholder="选择日期范围">
-                            </el-date-picker>
-                        </el-form-item>
+                            <el-form-item label="结算时间" prop="time">
+                                <el-date-picker v-model="form.time" type="daterange" style="width:100%;" placeholder="选择日期范围">
+                                </el-date-picker>
+                            </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                        <el-form-item label="所属代理商">
+                            <el-form-item label="所属代理商">
                                 <el-form-item prop="admin">
                                     <el-select class="select" v-model="form.admin" placeholder="全部">
                                         <el-option :label="item.nick_name" :value="item.admin_code" v-for="(item,index) in RegionManagerList"></el-option>
                                     </el-select>
                                 </el-form-item>
-                            <!--<el-col :span="4">
+                                <!--<el-col :span="4">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
@@ -38,27 +38,26 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>-->
-                        </el-form-item>
+                            </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                        <el-form-item label="交易类型">
+                            <el-form-item label="交易类型">
                                 <el-form-item prop="status">
                                     <el-select class="select" v-model="form.status" placeholder="全部">
                                         <el-option :label="item.name" :value="item.code" v-for="(item,index) in tradeList"></el-option>
                                     </el-select>
                                 </el-form-item>
-                        </el-form-item>
+                            </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                            <el-button @click="resetForm('form')">重置</el-button>
-                        </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submitForm('form')">提交</el-button>
+                                <el-button @click="resetForm('form')">重置</el-button>
+                            </el-form-item>
                         </el-col>
                     </el-form>
-
                 </div>
-                <div>
+                <div style="float:left;">
                     <div class="line" style="margin-top: 10px; margin-bottom: 20px; font-size: 20px;">
                         <b style="padding-left: 120px">当前账号余额: {{report.balance}}元</b>
                         <b style="padding-left: 120px">累计抽成金额: {{report.cumulative}}元</b>
@@ -137,9 +136,9 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                this.RegionManagerList = response;
-        }
-        };
+                    this.RegionManagerList = response;
+                }
+            };
             AjaxHelper.GetRequest(p_obj);
         },
         getRegionList() {

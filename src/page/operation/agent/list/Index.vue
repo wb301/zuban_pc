@@ -8,29 +8,25 @@
                 <div class="search">
                     <el-form :model="form" ref="form" label-width="120px">
                         <el-form-item label="代理商手机号码" prop="phone">
-                            <el-input v-model.number="form.phone"></el-input>
+                            <el-col :span="8">
+                                <el-input v-model.number="form.phone"></el-input>
+                            </el-col>
                         </el-form-item>
                         <el-form-item label="代理商类型">
                             <el-col :span="8">
-                                <el-form-item prop="region1">
-                                    <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>
+                                </el-select>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item prop="region2">
-                                    <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region2" @change="selectRegion2List" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region2List"></el-option>
+                                </el-select>
                             </el-col>
                             <el-col :span="8">
-                                <el-form-item prop="region3">
-                                    <el-select class="select" v-model="form.region3" placeholder="全国">
-                                        <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-select class="select" v-model="form.region3" placeholder="全国">
+                                    <el-option :label="item.name" :value="item.code" v-for="(item,index) in region3List"></el-option>
+                                </el-select>
                             </el-col>
                         </el-form-item>
                         <el-form-item>
@@ -114,9 +110,9 @@ export default {
             page: 1,
             dialogFormVisible: false,
             settlementForm: {
-                code:'',
+                code: '',
                 region_name: '',
-                region_code:'',
+                region_code: '',
                 staymoney: '',
                 money: '',
                 instructions: ''
@@ -250,7 +246,7 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
-                        //console.log(response);
+                    //console.log(response);
                     this.settlementForm.region_name = response[0].region_name;
                     this.settlementForm.region_code = response[0].region_code;
                     this.settlementForm.staymoney = response[0].lastprice;
@@ -266,24 +262,24 @@ export default {
                 m: 'MoneyHistory',
                 a: 'verification',
                 bossCode: this.settlementForm.code,
-                region:this.settlementForm.region_code,
-                price:this.money,
-                remark:this.instructions
+                region: this.settlementForm.region_code,
+                price: this.money,
+                remark: this.instructions
             };
             var p_obj = {
                 action: '',
                 param: param,
                 success: (response) => {
-                        NormalHelper.alert(this,'核销成功！', 'success');
-            this.dialogFormVisible = false;
-            this.money='';
-            this.instructions='';
-        },
-            fail: (response) => {
-                NormalHelper.alert(this, response, 'error');
-            }
-        };
-        AjaxHelper.GetRequest(p_obj);
+                    NormalHelper.alert(this, '核销成功！', 'success');
+                    this.dialogFormVisible = false;
+                    this.money = '';
+                    this.instructions = '';
+                },
+                fail: (response) => {
+                    NormalHelper.alert(this, response, 'error');
+                }
+            };
+            AjaxHelper.GetRequest(p_obj);
 
         }
     },
