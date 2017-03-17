@@ -112,7 +112,9 @@ export default {
             page: 1,
             dialogFormVisible: false,
             settlementForm: {
+                code:'',
                 region_name: '',
+                region_code:'',
                 staymoney: '',
                 money: '',
                 instructions: ''
@@ -246,14 +248,40 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
+                        //console.log(response);
                     this.settlementForm.region_name = response[0].region_name;
+                    this.settlementForm.region_code = response[0].region_code;
                     this.settlementForm.staymoney = response[0].lastprice;
+                    this.settlementForm.code = item;
                     this.dialogFormVisible = true;
                 }
             };
             AjaxHelper.GetRequest(p_obj);
         },
         settlementMoney() {
+            var param = {
+                c: 'Admin',
+                m: 'MoneyHistory',
+                a: 'verification',
+                bossCode: this.settlementForm.code,
+                region:this.settlementForm.region_code,
+                price:this.money,
+                remark:this.instructions
+            };
+            var p_obj = {
+                action: '',
+                param: param,
+                success: (response) => {
+                        NormalHelper.alert(this,'核销成功！', 'success');
+            this.dialogFormVisible = false;
+            this.money='';
+            this.instructions='';
+        },
+            fail: (response) => {
+                NormalHelper.alert(this, response, 'error');
+            }
+        };
+        AjaxHelper.GetRequest(p_obj);
 
         }
     },
