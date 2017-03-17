@@ -52,6 +52,8 @@
                     </el-table-column>
                     <el-table-column prop="region_name" align="center" label="所属地区" min-width="180">
                     </el-table-column>
+                    <el-table-column prop="price" align="center" label="待结算金额" min-width="120">
+                    </el-table-column>
                     <el-table-column prop="create_time" align="center" label="添加时间" min-width="185">
                     </el-table-column>
                     <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
