@@ -13,7 +13,7 @@
                         </el-col>
                         <el-col :span="12">
                         <el-form-item label="订单编号" prop="order_no">
-                            <el-input v-model.number="form.order_no"></el-input>
+                            <el-input v-model.string="form.order_no"></el-input>
                         </el-form-item>
                         </el-col>
                         <el-col :span="12">

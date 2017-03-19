@@ -67,7 +67,9 @@
             </div>
             <div class="table">
                 <el-table :data="List" border style="width: 100%">
-                    <el-table-column prop="id" align="center" label="编号" min-width="45">
+                    <el-table-column prop="nick_name" align="center" label="代理商" min-width="90">
+                    </el-table-column>
+                    <el-table-column prop="region_name" align="center" label="所属区域" min-width="90">
                     </el-table-column>
                     <el-table-column prop="price_type" align="center" label="交易类型" min-width="80">
                     </el-table-column>

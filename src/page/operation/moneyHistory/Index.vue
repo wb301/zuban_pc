@@ -6,7 +6,7 @@
                     <el-form ref="form" :model="form" label-width="80px">
                         <el-col :span="12">
                             <el-form-item label="订单编号" prop="orderNo">
-                                <el-input v-model="form.orderNo"></el-input>
+                                <el-input v-model.string="form.orderNo"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
