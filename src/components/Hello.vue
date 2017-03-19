@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         qrcode() {
-            var text = this.utf16to8("https://weixin.zuban8.com/zuban_web/console/#/registered?region="+JSON.stringify(this.regionInfo));
+            var text = this.utf16to8("https://www.zuban8.com/zuban_web/console/#/registered?region="+JSON.stringify(this.regionInfo));
             $("#qrCode").qrcode({
                 text: text,
                 width:200,
