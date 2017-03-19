@@ -174,6 +174,9 @@ export default {
             if (this.form.region3 != "" && this.form.region3 != '1') {
                 param.region_code = this.form.region3;
             }
+            if (this.form.phone != "") {
+                param.phone = this.form.phone;
+            }
             var p_obj = {
                 action: '',
                 param: param,
