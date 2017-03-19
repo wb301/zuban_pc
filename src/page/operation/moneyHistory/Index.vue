@@ -43,6 +43,8 @@
             </div>
             <div class="table" style="margin-top: 10px">
                 <el-table :data="moneyHistoryList" border style="width: 100%">
+                    <el-table-column prop="order_type" align="center" label="抽成类型" min-width="90">
+                    </el-table-column>
                     <el-table-column prop="price_info" align="center" label="订单编号" min-width="90">
                     </el-table-column>
                     <el-table-column prop="remark" align="center" label="交易类型" min-width="130">
@@ -129,6 +131,21 @@ export default {
                 action: '',
                 param: param,
                 success: (response) => {
+                        for (var i = 0; i < response.list.length; i++) {
+                    switch (response.list[i].order_type) {
+                        case '0':
+                             response.list[i].order_type='查看服务收费';break;
+                        case '1':
+                            response.list[i].order_type='购买服务分成';break;
+                        case '2':
+                            response.list[i].order_type='会员充值收费';break;
+                        default:
+                            response.list[i].order_type='购买服务分成';
+                    }
+
+
+
+            }
                     this.moneyHistoryList = response.list;
                     this.total = parseInt(response.total);
                 },
