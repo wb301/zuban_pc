@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
     GlobalModel.WAP_URL = 'https://www.zuban8.com/zuban_pc';
 }
 GlobalModel.SERVER_URL = GlobalModel.SERVER_DOMAIN + GlobalModel.SERVER_PATH;
-GlobalModel.SERVER_URL = "https://www.zuban8.com/zuban_server/index.php?";
+// GlobalModel.SERVER_URL = "https://www.zuban8.com/zuban_server/index.php?";
 GlobalModel.LOCAL_URL = 'https://www.zuban8.com/zuban_pc';
 GlobalModel.WX_JS_SDK_CONFIG = GlobalModel.SERVER_DOMAIN + '/appsdk_wx_js/wx_config.php?callback=?';
 
