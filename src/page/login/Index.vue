@@ -37,10 +37,6 @@ export default {
             };
 
             var mobile = param.account;
-            if (!(/^1(3|4|5|7|8)\d{9}$/.test(mobile))) {
-                NormalHelper.alert(this, "手机号码有误，请重填");
-                return false;
-            };
             var str = /^(\w){6,20}$/;
             if (!str.exec(this.password)) {
                 NormalHelper.alert(this, "密码格式错误！");
