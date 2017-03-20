@@ -12,7 +12,7 @@
                                 <el-input v-model.number="form.phone"></el-input>
                             </el-col>
                         </el-form-item>
-                        <el-form-item label="代理商类型">
+                        <el-form-item label="代理商地区">
                             <el-col :span="8">
                                 <el-select class="select" v-model="form.region1" @change="selectRegion1List" placeholder="全国">
                                     <el-option :label="item.name" :value="item.code" v-for="(item,index) in region1List"></el-option>

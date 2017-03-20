@@ -121,8 +121,9 @@ export default {
         this.ruleForm2.id = this.$route.params.id;
         if(this.ruleForm2.id>0){
             this.getRegionManagerInfo(this.ruleForm2.id);
+        }else {
+            this.getRegionList();
         }
-        this.getRegionList();
     },
     methods: {
         getRegionList() {
