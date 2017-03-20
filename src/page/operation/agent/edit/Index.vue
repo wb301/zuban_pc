@@ -13,7 +13,7 @@
                         <el-form-item label="代理商姓名:" prop="name">
                             <el-input v-model.number="ruleForm2.name"></el-input>
                         </el-form-item>
-                        <el-form-item label="代理商地区:">
+                        <el-form-item label="代理商地区:" v-if="ruleForm2.id==0">
                             <el-col :span="8">
                                 <el-form-item prop="region1">
                                     <el-select class="select" v-model="ruleForm2.region1" @change="selectRegion1List" placeholder="全国">
@@ -36,6 +36,9 @@
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
+                        <el-form-item label="代理商地区:" v-if="ruleForm2.id!=0">
+                            {{ruleForm2.region_name}}
+                            </el-form-item>
                         <el-form-item label="代理商状态:" prop="status">
                             <el-radio-group v-model="ruleForm2.status">
                                 <el-radio label="1">开启</el-radio>
@@ -115,6 +118,10 @@ export default {
         };
     },
     mounted() {
+        this.ruleForm2.id = this.$route.params.id;
+        if(this.ruleForm2.id>0){
+            this.getRegionManagerInfo(this.ruleForm2.id);
+        }
         this.getRegionList();
     },
     methods: {
@@ -183,24 +190,25 @@ export default {
                 errorStr = "请先填写代理商姓名！";
             }
 
-            if (this.ruleForm2.region2 == this.ruleForm2.region3) {
-                errorStr = "请先选择代理商地区！";
+            if(this.ruleForm2.id==0){
+                if (this.ruleForm2.region2 == this.ruleForm2.region3) {
+                    errorStr = "请先选择代理商地区！";
+                }
+                for (var i = 0; i < this.region3List.length; i++) {
+                    if (this.ruleForm2.region3 == this.region3List[i].code) {
+                        this.ruleForm2.region_name += "-" + this.region3List[i].name;
+                        break;
+                    }
+                }
             }
-
             if (this.ruleForm2.status == -1) {
                 errorStr = "请先选择代理商状态！";
             }
 
             if (errorStr) {
-                NormalHelper.alert(this, errorStr, 'error');
+                var err={msg:errorStr};
+                NormalHelper.alert(this, err, 'error');
                 return false;
-            }
-
-            for (var i = 0; i < this.region3List.length; i++) {
-                if (this.ruleForm2.region3 == this.region3List[i].code) {
-                    this.ruleForm2.region_name += "-" + this.region3List[i].name;
-                    break;
-                }
             }
 
             var param = {
@@ -228,6 +236,30 @@ export default {
                     NormalHelper.alert(this, response, 'error');
                 }
             };
+            AjaxHelper.GetRequest(p_obj);
+        },
+        getRegionManagerInfo(id) {
+            var param = {
+                c: 'Admin',
+                m: 'User',
+                a: 'getRegionManagerInfo',
+                id: id,
+            };
+            var p_obj = {
+                        action: '',
+                        param: param,
+                        success: (response) => {
+
+                this.ruleForm2.id=id;
+            this.ruleForm2.account=response.account;
+            this.ruleForm2.name=response.nick_name;
+            this.ruleForm2.status=response.status;
+            this.ruleForm2.region_name=response.region_name;
+            this.ruleForm2.region3=response.region_code;
+
+
+        }
+        }
             AjaxHelper.GetRequest(p_obj);
         }
     },

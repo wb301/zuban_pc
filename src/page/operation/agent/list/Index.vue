@@ -54,13 +54,16 @@
                     </el-table-column>
                     <el-table-column prop="status_name" align="center" label="帐号状态" min-width="100">
                     </el-table-column>
-                    <el-table-column fixed="right" align="center" label="操作" width="140">
+                    <el-table-column fixed="right" align="center" label="操作" width="200">
                         <template scope="scope">
                             <el-button @click="changeState(scope.$index, agentList)" size="small">
                                 {{scope.row.status==1?"关闭":"开启"}}
                             </el-button>
                             <el-button @click="settlement(scope.row.admin_code)" size="small">
                                 结算
+                            </el-button>
+                            <el-button @click="editRegionManager(scope.row.id)" size="small">
+                                编辑
                             </el-button>
                         </template>
                     </el-table-column>
@@ -194,6 +197,11 @@ export default {
         addRegionManager() {
             this.$router.push({
                 path: '/agent-edit'
+            });
+        },
+        editRegionManager(id) {
+            this.$router.push({
+                path: '/agent-edit/'+id
             });
         },
         changeState(index, rows) {

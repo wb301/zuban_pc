@@ -30,7 +30,7 @@ const router = new Router({
                     require(['./page/operation/agent/list/Index.vue'], resolve)
                 }
             }, {
-                path: '/agent-edit/',
+                path: '/agent-edit/:id',
                 component: function(resolve) {
                     require(['./page/operation/agent/edit/Index.vue'], resolve)
                 }
