@@ -219,60 +219,32 @@ export default {
             store
         }) {
             var html = h('span', [h('span', data.category_name), h('el-button', {
-                    'class': {},
-                    style: {
-                        'margin-left': '10px'
-                    },
-                    domProps: {
-                        innerHTML: '编辑'
-                    },
-                    attrs: {
-                        type: "text"
-                    },
-                    on: {
-                        click: () => this.edit(store, data)
-                    }
-                }), h('el-button', {
-                    'class': {},
-                    domProps: {
-                        innerHTML: '删除'
-                    },
-                    attrs: {
-                        type: "text"
-                    },
-                    on: {
-                        click: () => this.remove(store, data)
-                    }
-                })])
-                // , h('el-button', {
-                //     'class': {},
-                //     props: {
-                //         disabled: true
-                //     },
-                //     domProps: {
-                //         innerHTML: '上移'
-                //     },
-                //     attrs: {
-                //         type: "text"
-                //     },
-                //     on: {
-                //         click: () => this.append(store, data)
-                //     }
-                // }), h('el-button', {
-                //     'class': {},
-                //     props: {
-                //         disabled: true
-                //     },
-                //     domProps: {
-                //         innerHTML: '下移'
-                //     },
-                //     attrs: {
-                //         type: "text"
-                //     },
-                //     on: {
-                //         click: () => this.append(store, data)
-                //     }
-                // })
+                'class': {},
+                style: {
+                    'margin-left': '10px'
+                },
+                domProps: {
+                    innerHTML: '编辑'
+                },
+                attrs: {
+                    type: "text"
+                },
+                on: {
+                    click: () => this.edit(store, data)
+                }
+            }), h('el-button', {
+                'class': {},
+                domProps: {
+                    innerHTML: '删除'
+                },
+                attrs: {
+                    type: "text"
+                },
+                on: {
+                    click: () => this.remove(store, data)
+                }
+            })])
+
             if (node.level == 1) {
                 html.children.splice(2, 0, h('el-button', {
                     'class': {},
@@ -288,7 +260,55 @@ export default {
                     }
                 }));
             }
+            var props = {
+                disabled: false
+            }
+            if (data.sort == "1") {
+                props.disabled = true;
+            }
+            html.children.push(h('el-button', {
+                'class': {},
+                props: props,
+                domProps: {
+                    innerHTML: '上移'
+                },
+                attrs: {
+                    type: "text"
+                },
+                on: {
+                    click: () => this.moveCate(store, data, "up")
+                }
+            }), h('el-button', {
+                'class': {},
+                props: {
+                    disabled: false
+                },
+                domProps: {
+                    innerHTML: '下移'
+                },
+                attrs: {
+                    type: "text"
+                },
+                on: {
+                    click: () => this.moveCate(store, data, "down")
+                }
+            }));
             return html;
+        },
+        moveCate(store, data, type = "up") {
+            var param = {}
+            if (type == "up") {
+                param.sort = parseInt(data.sort) - 1
+            } else {
+                param.sort = parseInt(data.sort) + 1
+            }
+            this.updateCategoryInfo(data.id, param, (res) => {
+                this.$message({
+                    type: 'success',
+                    message: '修改成功!'
+                });
+                this.getCategoryList();
+            })
         }
     },
     destroyed() {}
