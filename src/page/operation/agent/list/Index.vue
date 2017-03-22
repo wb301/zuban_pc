@@ -196,7 +196,7 @@ export default {
         },
         addRegionManager() {
             this.$router.push({
-                path: '/agent-edit'
+                path: '/agent-edit/0'
             });
         },
         editRegionManager(id) {
